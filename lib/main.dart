@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedding_app/calender_set/calender.dart';
-import 'package:wedding_app/to_do_list.dart';
+import 'package:wedding_app/text_tile_set/to_do_list.dart';
 
 void main() {
   runApp(const WeddingApp());

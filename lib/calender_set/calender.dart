@@ -30,7 +30,7 @@ class _CalenderState extends State<Calender> {
                   width: 12,
                 ),
                 Text(
-                  "calender",
+                  "Calender",
                   style: TextStyle(
                     fontSize: 24,
                   ),

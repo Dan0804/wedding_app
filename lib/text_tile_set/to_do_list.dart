@@ -11,6 +11,27 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
+  Widget smallTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Card(
+        elevation: 5,
+        child: SizedBox(
+          height: 36,
+          width: 128,
+          child: Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   bool visible = false;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +47,7 @@ class _ToDoListState extends State<ToDoList> {
                   width: 12,
                 ),
                 Text(
-                  "to do List",
+                  "To Do List",
                   style: TextStyle(
                     fontSize: 24,
                   ),
@@ -49,7 +70,7 @@ class _ToDoListState extends State<ToDoList> {
                         height: double.infinity,
                         child: Column(
                           children: [
-                            Text("진행 전"),
+                            smallTitle("진행 전"),
                             Flexible(
                               fit: FlexFit.tight,
                               child: Padding(
@@ -83,7 +104,7 @@ class _ToDoListState extends State<ToDoList> {
                         height: double.infinity,
                         child: Column(
                           children: [
-                            Text("진행 중"),
+                            smallTitle("진행 중"),
                             Flexible(
                               fit: FlexFit.tight,
                               child: Padding(
@@ -117,7 +138,7 @@ class _ToDoListState extends State<ToDoList> {
                         height: double.infinity,
                         child: Column(
                           children: [
-                            Text("진행 완료"),
+                            smallTitle("진행 완료"),
                             Flexible(
                               fit: FlexFit.tight,
                               child: Padding(
