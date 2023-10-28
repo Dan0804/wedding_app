@@ -3,14 +3,14 @@ import 'package:wedding_app/text_tile_set/doing_text_tile.dart';
 import 'package:wedding_app/text_tile_set/before_text_tile.dart';
 import 'package:wedding_app/text_tile_set/end_text_tile.dart';
 
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class ToDoListPackage extends StatefulWidget {
+  const ToDoListPackage({super.key});
 
   @override
-  State<ToDoList> createState() => _ToDoListState();
+  State<ToDoListPackage> createState() => _ToDoListPackageState();
 }
 
-class _ToDoListState extends State<ToDoList> {
+class _ToDoListPackageState extends State<ToDoListPackage> {
   Widget smallTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedding_app/calender_set/calender.dart';
 
 class TextTileDetail extends StatefulWidget {
   const TextTileDetail({super.key});
@@ -59,7 +60,32 @@ class _TextTileDetailState extends State<TextTileDetail> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  print("press selecting date in calender");
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                        content: SizedBox(
+                                          height: 400,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              SizedBox(
+                                                width: 400,
+                                                child: Calender(textTile: true),
+                                              ),
+                                              SizedBox(
+                                                width: 300,
+                                                child: CalenderDetail(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: Icon(Icons.calendar_today),
                               ),

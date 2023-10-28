@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/calender_set/calender.dart';
-import 'package:wedding_app/text_tile_set/to_do_list.dart';
+import 'package:wedding_app/calender_set/calender_package.dart';
+import 'package:wedding_app/text_tile_set/to_do_list_package.dart';
 
 void main() {
   runApp(const WeddingApp());
@@ -66,12 +66,12 @@ class WeddingApp extends StatelessWidget {
                   Flexible(
                     flex: 5,
                     fit: FlexFit.tight,
-                    child: ToDoList(),
+                    child: ToDoListPackage(),
                   ),
                   Flexible(
                     flex: 2,
                     fit: FlexFit.tight,
-                    child: Calender(),
+                    child: CalenderPackage(),
                   ),
                 ],
               ),

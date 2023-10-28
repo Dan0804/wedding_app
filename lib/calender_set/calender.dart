@@ -1,182 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:wedding_app/calender_set/events.dart';
+part 'calender_detail_tile.dart';
 
 class Calender extends StatefulWidget {
-  const Calender({super.key});
+  const Calender({
+    super.key,
+    required this.textTile,
+  });
+
+  final bool textTile;
 
   @override
   State<Calender> createState() => _CalenderState();
 }
 
+class Events {
+  final String title;
+  Events(this.title);
+}
+
 class _CalenderState extends State<Calender> {
-  int year = DateTime.now().year;
-  DateTime focusedDay = DateTime.now();
-  DateTime? selectedDay;
+  final int _year = DateTime.now().year;
+  DateTime _today = DateTime.now();
+  DateTime? _selectedDay;
   Map<DateTime, List<Events>> events = {};
+  late final ValueNotifier<List<Events>> _selectEvents;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDay = _today;
+    _selectEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  List<Events> _getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 12,
-                ),
-                Text(
-                  "Calender",
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            fit: FlexFit.tight,
-            child: SizedBox(
-              width: double.infinity,
-              child: Card(
-                elevation: 10,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Stack(
-                          children: [
-                            TableCalendar(
-                              calendarBuilders: CalendarBuilders(
-                                defaultBuilder: (context, day, focusedDay) {
-                                  if (day.weekday == DateTime.saturday) {
-                                    final text = day.day.toString();
+    return TableCalendar(
+      calendarBuilders: CalendarBuilders(
+        defaultBuilder: (context, day, focusedDay) {
+          if (day.weekday == DateTime.saturday) {
+            final text = day.day.toString();
 
-                                    return Center(
-                                      child: Text(
-                                        text,
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                                    );
-                                  }
-
-                                  if (day.weekday == DateTime.sunday) {
-                                    final text = day.day.toString();
-
-                                    return Center(
-                                      child: Text(
-                                        text,
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                    );
-                                  }
-                                },
-                                dowBuilder: (context, day) {
-                                  if (day.weekday == DateTime.sunday) {
-                                    final text = DateFormat.E().format(day);
-
-                                    return Center(
-                                      child: Text(
-                                        text,
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                    );
-                                  }
-
-                                  if (day.weekday == DateTime.saturday) {
-                                    final text = DateFormat.E().format(day);
-
-                                    return Center(
-                                      child: Text(
-                                        text,
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                              focusedDay: focusedDay,
-                              firstDay: DateTime.utc(year - 1),
-                              lastDay: DateTime.utc(year + 3),
-                              onDaySelected: (selectedDay, focusedDay) {
-                                setState(() {
-                                  this.focusedDay = selectedDay;
-                                });
-                              },
-                              selectedDayPredicate: (day) {
-                                return isSameDay(selectedDay, day);
-                              },
-                              availableGestures: AvailableGestures.all,
-                              headerStyle: HeaderStyle(
-                                formatButtonVisible: false,
-                                titleCentered: true,
-                              ),
-                              // calendarStyle: CalendarStyle(
-                              //   todayDecoration: BoxDecoration(
-                              //     color: Colors.blue[500],
-                              //     shape: BoxShape.rectangle,
-                              //     borderRadius: BorderRadius.circular(12.0),
-                              //   ),
-                              // ),
-                            ),
-                            Positioned(
-                              top: 12,
-                              right: 64,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {});
-                                },
-                                icon: Icon(Icons.refresh),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black45),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 6,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              elevation: 5,
-                              color: Colors.black12,
-                              child: SizedBox(
-                                height: 64,
-                                child: Center(
-                                  child: Text("calender details"),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            return Center(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.blue),
               ),
-            ),
-          ),
-        ],
+            );
+          }
+
+          if (day.weekday == DateTime.sunday) {
+            final text = day.day.toString();
+
+            return Center(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+        },
+        dowBuilder: (context, day) {
+          if (day.weekday == DateTime.sunday) {
+            final text = DateFormat.E().format(day);
+
+            return Center(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+
+          if (day.weekday == DateTime.saturday) {
+            final text = DateFormat.E().format(day);
+
+            return Center(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.blue),
+              ),
+            );
+          }
+        },
       ),
+      focusedDay: _today,
+      firstDay: DateTime.utc(_year - 2),
+      lastDay: DateTime.utc(_year + 3),
+      onDaySelected: (day, focusedDay) {
+        setState(() {
+          _today = day;
+          events.addAll({
+            _selectedDay!: [Events("test")]
+          });
+          _selectEvents.value = _getEventsForDay(_selectedDay!);
+          print("tap");
+        });
+      },
+      selectedDayPredicate: (day) {
+        return isSameDay(day, _today);
+      },
+      availableGestures: AvailableGestures.all,
+      headerStyle: HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+      ),
+      calendarStyle: CalendarStyle(
+        todayDecoration: BoxDecoration(
+          color: Colors.blue[500]!.withOpacity(0.7),
+          shape: BoxShape.circle,
+        ),
+        selectedDecoration: BoxDecoration(
+          color: Colors.purple[200]!.withOpacity(0.5),
+          shape: BoxShape.circle,
+        ),
+      ),
+      eventLoader: _getEventsForDay,
     );
   }
 }
