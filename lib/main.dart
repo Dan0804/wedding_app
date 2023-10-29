@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
+import 'package:wedding_app/calender_set/calender_service.dart';
 import 'package:wedding_app/text_tile_set/to_do_list_package.dart';
 
 void main() {
-  runApp(const WeddingApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CalenderService(),
+      child: const WeddingApp(),
+    ),
+  );
 }
 
 class WeddingApp extends StatelessWidget {

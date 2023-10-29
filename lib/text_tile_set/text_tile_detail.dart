@@ -76,9 +76,20 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                                 width: 400,
                                                 child: Calender(textTile: true),
                                               ),
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(color: Colors.black45),
+                                                  ),
+                                                ),
+                                              ),
                                               SizedBox(
                                                 width: 300,
-                                                child: CalenderDetail(),
+                                                height: double.infinity,
+                                                child: CalenderDetail(
+                                                  textTile: true,
+                                                ),
                                               ),
                                             ],
                                           ),

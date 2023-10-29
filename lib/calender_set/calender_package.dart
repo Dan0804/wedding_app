@@ -75,7 +75,9 @@ class _CalenderPackageState extends State<CalenderPackage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: CalenderDetail(),
+                        child: CalenderDetail(
+                          textTile: false,
+                        ),
                       ),
                     ],
                   ),

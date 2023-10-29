@@ -1,7 +1,12 @@
 part of 'calender.dart';
 
 class CalenderDetail extends StatefulWidget {
-  const CalenderDetail({super.key});
+  const CalenderDetail({
+    super.key,
+    required this.textTile,
+  });
+
+  final bool textTile;
 
   @override
   State<CalenderDetail> createState() => _CalenderDetailState();
@@ -10,27 +15,23 @@ class CalenderDetail extends StatefulWidget {
 class _CalenderDetailState extends State<CalenderDetail> {
   @override
   Widget build(BuildContext context) {
-    _CalenderState();
-
-    return ValueListenableBuilder<List<Events>>(
-        valueListenable: _CalenderState()._selectEvents,
-        builder: (context, value, _) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: value.length,
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: 5,
-                color: Colors.black12,
-                child: SizedBox(
-                  height: 64,
-                  child: Center(
-                    child: Text("test"),
-                  ),
-                ),
-              );
-            },
+    return Consumer<CalenderService>(
+      builder: (context, calenderService, child) => ListView.builder(
+        shrinkWrap: true,
+        itemCount: calenderService.selectedEvents.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 5,
+            color: Colors.black12,
+            child: SizedBox(
+              height: 64,
+              child: Center(
+                child: Text("test"),
+              ),
+            ),
           );
-        });
+        },
+      ),
+    );
   }
 }
