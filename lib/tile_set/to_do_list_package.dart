@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/text_tile_set/doing_text_tile.dart';
-import 'package:wedding_app/text_tile_set/before_text_tile.dart';
-import 'package:wedding_app/text_tile_set/end_text_tile.dart';
+import 'package:wedding_app/tile_set/doing_text_tile.dart';
+import 'package:wedding_app/tile_set/before_text_tile.dart';
+import 'package:wedding_app/tile_set/end_text_tile.dart';
 
 class ToDoListPackage extends StatefulWidget {
   const ToDoListPackage({super.key});
@@ -70,7 +70,7 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
                         height: double.infinity,
                         child: Column(
                           children: [
-                            smallTitle("진행 전"),
+                            smallTitle("Before"),
                             Flexible(
                               fit: FlexFit.tight,
                               child: Padding(
@@ -104,7 +104,7 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
                         height: double.infinity,
                         child: Column(
                           children: [
-                            smallTitle("진행 중"),
+                            smallTitle("Doing"),
                             Flexible(
                               fit: FlexFit.tight,
                               child: Padding(
@@ -138,7 +138,7 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
                         height: double.infinity,
                         child: Column(
                           children: [
-                            smallTitle("진행 완료"),
+                            smallTitle("Done"),
                             Flexible(
                               fit: FlexFit.tight,
                               child: Padding(

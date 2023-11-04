@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/text_tile_set/text_tile_detail.dart';
+import 'package:wedding_app/tile_set/tile_detail_set/text_tile_detail.dart';
 
 class EndTextTile extends StatefulWidget {
   const EndTextTile({super.key});

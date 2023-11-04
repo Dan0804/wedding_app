@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
 import 'package:wedding_app/calender_set/calender_service.dart';
-import 'package:wedding_app/text_tile_set/to_do_list_package.dart';
+import 'package:wedding_app/tile_set/to_do_list_package.dart';
 
 void main() {
   runApp(

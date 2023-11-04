@@ -9,9 +9,11 @@ class Calender extends StatefulWidget {
   const Calender({
     super.key,
     required this.textTile,
+    required this.setDate,
   });
 
   final bool textTile;
+  final Function? setDate;
 
   @override
   State<Calender> createState() => _CalenderState();
@@ -99,11 +101,7 @@ class _CalenderState extends State<Calender> {
               setState(() {
                 _selectedDay = day;
                 _today = focusedDay;
-                if (widget.textTile) {
-                  calenderService.addDetailInTile(_selectedDay);
-                } else {
-                  calenderService.addDetailInPackage(_selectedDay);
-                }
+                calenderService.addDetail(_selectedDay);
               });
             },
             selectedDayPredicate: (day) {
@@ -132,12 +130,11 @@ class _CalenderState extends State<Calender> {
                   bottom: 16,
                   child: ElevatedButton(
                     onPressed: () {
-                      calenderService.addEvents(_selectedDay, [Events("${DateTime.now()}")]);
-                      if (widget.textTile) {
-                        calenderService.addDetailInTile(_selectedDay);
-                      } else {
-                        calenderService.addDetailInPackage(_selectedDay);
-                      }
+                      widget.setDate!(_selectedDay);
+                      Navigator.pop(context);
+
+                      // calenderService.addEvents(_selectedDay, [Events("${DateTime.now()}")]);
+                      // calenderService.addDetail(_selectedDay);
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 10,

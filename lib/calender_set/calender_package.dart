@@ -45,6 +45,7 @@ class _CalenderPackageState extends State<CalenderPackage> {
                           children: [
                             Calender(
                               textTile: false,
+                              setDate: null,
                             ),
                             Positioned(
                               top: 12,

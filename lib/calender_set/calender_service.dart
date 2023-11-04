@@ -14,12 +14,7 @@ class CalenderService with ChangeNotifier {
     notifyListeners();
   }
 
-  void addDetailInTile(DateTime selectedDay) {
-    selectedEvents = getEventsForDay(selectedDay);
-    notifyListeners();
-  }
-
-  void addDetailInPackage(DateTime selectedDay) {
+  void addDetail(DateTime selectedDay) {
     selectedEvents = getEventsForDay(selectedDay);
     notifyListeners();
   }

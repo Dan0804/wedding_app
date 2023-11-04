@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/text_tile_set/text_tile_detail.dart';
+import 'package:wedding_app/tile_set/tile_detail_set/text_tile_detail.dart';
 
-class DoingTextTile extends StatefulWidget {
-  const DoingTextTile({super.key});
+class BeforeTextTile extends StatefulWidget {
+  const BeforeTextTile({super.key});
 
   @override
-  State<DoingTextTile> createState() => _DoingTextTileState();
+  State<BeforeTextTile> createState() => _BeforeTextTileState();
 }
 
-class _DoingTextTileState extends State<DoingTextTile> {
+class _BeforeTextTileState extends State<BeforeTextTile> {
   bool forwardVisible = false;
-  bool backVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,36 +35,7 @@ class _DoingTextTileState extends State<DoingTextTile> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Text("doing"),
-              Positioned(
-                left: 8,
-                child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: MouseRegion(
-                    onEnter: (event) {
-                      setState(() {
-                        backVisible = true;
-                      });
-                    },
-                    onExit: (event) {
-                      setState(() {
-                        backVisible = false;
-                      });
-                    },
-                    child: AnimatedOpacity(
-                      opacity: backVisible == true ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 200),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_back_ios_new,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Text("before"),
               Positioned(
                 right: 8,
                 child: SizedBox(

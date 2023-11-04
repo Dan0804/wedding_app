@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 
 class TextTileDetail extends StatefulWidget {
@@ -9,6 +10,14 @@ class TextTileDetail extends StatefulWidget {
 }
 
 class _TextTileDetailState extends State<TextTileDetail> {
+  var selectedDay = DateTime(1994, 8, 4);
+
+  void setDate(DateTime selectedDay) {
+    setState(() {
+      this.selectedDay = selectedDay;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -49,7 +58,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                           child: Row(
                             children: [
                               Text(
-                                "YYYY/MM/DD",
+                                selectedDay == DateTime(1994, 8, 4) ? "Unselected" : DateFormat("yyyy/MM/dd  EEEE").format(selectedDay),
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -74,7 +83,10 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                             children: [
                                               SizedBox(
                                                 width: 400,
-                                                child: Calender(textTile: true),
+                                                child: Calender(
+                                                  textTile: true,
+                                                  setDate: setDate,
+                                                ),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
