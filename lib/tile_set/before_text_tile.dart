@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/tile_set/tile_detail_set/text_tile_detail.dart';
+import 'package:wedding_app/tile_set/text_tile_detail.dart';
 
 class BeforeTextTile extends StatefulWidget {
   const BeforeTextTile({super.key});

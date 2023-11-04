@@ -22,8 +22,7 @@ class Calender extends StatefulWidget {
 class _CalenderState extends State<Calender> {
   final int _year = DateTime.now().year;
   DateTime _today = DateTime.now();
-  DateTime _selectedDay = DateTime.now();
-  Map<DateTime, List<Events>> events = {};
+  late DateTime _selectedDay;
 
   @override
   void initState() {
@@ -101,7 +100,10 @@ class _CalenderState extends State<Calender> {
               setState(() {
                 _selectedDay = day;
                 _today = focusedDay;
-                calenderService.addDetail(_selectedDay);
+                calenderService.addDetail(
+                  _selectedDay,
+                  widget.textTile,
+                );
               });
             },
             selectedDayPredicate: (day) {
@@ -132,9 +134,6 @@ class _CalenderState extends State<Calender> {
                     onPressed: () {
                       widget.setDate!(_selectedDay);
                       Navigator.pop(context);
-
-                      // calenderService.addEvents(_selectedDay, [Events("${DateTime.now()}")]);
-                      // calenderService.addDetail(_selectedDay);
                     },
                     style: ElevatedButton.styleFrom(
                         elevation: 10,
