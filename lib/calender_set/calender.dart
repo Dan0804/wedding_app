@@ -22,7 +22,7 @@ class Calender extends StatefulWidget {
 class _CalenderState extends State<Calender> {
   final int _year = DateTime.now().year;
   DateTime _today = DateTime.now();
-  late DateTime _selectedDay;
+  DateTime _selectedDay = DateTime.now();
 
   @override
   void initState() {

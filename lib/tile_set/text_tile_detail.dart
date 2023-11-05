@@ -117,10 +117,8 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                           },
                                         ).then((value) {
                                           if (value == null) {
-                                            calenderService.addDetail(
-                                              DateTime.now(),
-                                              true,
-                                            );
+                                            calenderService.addDetail(DateTime.now(), true);
+                                            calenderService.initDateInTile();
                                             return;
                                           }
                                         });
