@@ -103,12 +103,19 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      width: 300,
-                                                      height: double.infinity,
-                                                      child: CalenderDetail(
-                                                        textTile: true,
-                                                      ),
+                                                    Column(
+                                                      children: [
+                                                        Text("${calenderService.selectedCalenderDate}"),
+                                                        Flexible(
+                                                          fit: FlexFit.tight,
+                                                          child: SizedBox(
+                                                            width: 300,
+                                                            child: CalenderDetail(
+                                                              textTile: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),

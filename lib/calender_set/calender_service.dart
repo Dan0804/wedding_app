@@ -9,21 +9,21 @@ class CalenderService with ChangeNotifier {
   Map<DateTime, List<Events>> events = {};
   List<Events> selectedEventsInCalender = [];
   List<Events> selectedEventsInTile = [];
-  DateTime? selectedCalenderDate;
-  final initDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime selectedCalenderDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime selectedTileDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  final DateTime initDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   void initDateInTile() {
     selectedEventsInTile = getEventsForDay(initDate);
   }
 
   void addEvents(DateTime day, List<Events> title) {
-    if (selectedCalenderDate == null) {
-      events.addAll({initDate: title});
-      selectedEventsInCalender = getEventsForDay(initDate);
-      initDateInTile();
-    } else {
-      events.addAll({day: title});
-      selectedEventsInCalender = getEventsForDay(selectedCalenderDate!);
+    DateTime editedDay = DateTime.utc(day.year, day.month, day.day);
+    events.addAll({editedDay: title});
+    initDateInTile();
+
+    if (selectedCalenderDate == editedDay) {
+      selectedEventsInCalender = getEventsForDay(editedDay);
     }
     notifyListeners();
   }
@@ -31,6 +31,7 @@ class CalenderService with ChangeNotifier {
   void addDetail(DateTime selectedDay, bool textTile) {
     if (textTile) {
       selectedEventsInTile = getEventsForDay(selectedDay);
+      selectedTileDate = selectedDay;
     } else {
       selectedEventsInCalender = getEventsForDay(selectedDay);
       selectedCalenderDate = selectedDay;
