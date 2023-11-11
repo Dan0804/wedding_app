@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wedding_app/service_set/tile_service.dart';
 import 'package:wedding_app/tile_set/text_tile_detail.dart';
 
 class BeforeTextTile extends StatefulWidget {
-  const BeforeTextTile({super.key});
+  const BeforeTextTile({
+    super.key,
+    required this.tileData,
+  });
+
+  final Tiles tileData;
 
   @override
   State<BeforeTextTile> createState() => _BeforeTextTileState();
@@ -35,7 +42,7 @@ class _BeforeTextTileState extends State<BeforeTextTile> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Text("before"),
+              Text(widget.tileData.tileDatas["title"]),
               Positioned(
                 right: 8,
                 child: SizedBox(
@@ -55,12 +62,16 @@ class _BeforeTextTileState extends State<BeforeTextTile> {
                     child: AnimatedOpacity(
                       opacity: forwardVisible == true ? 1.0 : 0.0,
                       duration: Duration(milliseconds: 200),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                        ),
-                      ),
+                      child: Consumer<TileService>(builder: (context, tileService, child) {
+                        return IconButton(
+                          onPressed: () {
+                            tileService.changeStatus("doing", widget.tileData);
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 ),

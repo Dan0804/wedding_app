@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:wedding_app/calender_set/calender_service.dart';
+import 'package:wedding_app/service_set/calender_service.dart';
 part 'calender_detail_tile.dart';
 
 class Calender extends StatefulWidget {
@@ -35,6 +35,22 @@ class _CalenderState extends State<Calender> {
     super.dispose();
   }
 
+  Widget _eventsMarker(List events, DateTime day, DateTime selectedDay) {
+    return Align(
+      alignment: day == selectedDay ? Alignment(0.6, 0.6) : Alignment(0.5, 0.5),
+      child: CircleAvatar(
+        radius: 8,
+        backgroundColor: Colors.red[300],
+        child: Center(
+          child: Text(
+            "${events.length}",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CalenderService>(
@@ -42,55 +58,103 @@ class _CalenderState extends State<Calender> {
         children: [
           TableCalendar(
             calendarBuilders: CalendarBuilders(
+              todayBuilder: (context, day, focusedDay) {
+                final text = day.day.toString();
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 6, left: 6, right: 6, bottom: 4),
+                  child: AnimatedContainer(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.blue[500],
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    duration: Duration(microseconds: 2000),
+                    child: Align(
+                      alignment: Alignment(-0.25, -0.5),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
               defaultBuilder: (context, day, focusedDay) {
-                if (day.weekday == DateTime.saturday) {
-                  final text = day.day.toString();
+                final text = day.day.toString();
 
-                  return Center(
-                    child: Text(
-                      text,
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  );
-                }
+                return Align(
+                  alignment: Alignment(-0.25, -0.25),
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                        color: day.weekday == DateTime.saturday
+                            ? Colors.blue
+                            : day.weekday == DateTime.sunday
+                                ? Colors.red
+                                : null),
+                  ),
+                );
+              },
+              outsideBuilder: (context, day, focusedDay) {
+                final text = day.day.toString();
 
-                if (day.weekday == DateTime.sunday) {
-                  final text = day.day.toString();
-
-                  return Center(
-                    child: Text(
-                      text,
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  );
-                }
-
-                return null;
+                return Align(
+                  alignment: Alignment(-0.25, -0.25),
+                  child: Text(
+                    text,
+                    style: TextStyle(color: Colors.black45),
+                  ),
+                );
               },
               dowBuilder: (context, day) {
-                if (day.weekday == DateTime.sunday) {
-                  final text = DateFormat.E().format(day);
+                final text = DateFormat.E().format(day);
 
-                  return Center(
-                    child: Text(
-                      text,
-                      style: TextStyle(color: Colors.red),
+                return Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                        color: day.weekday == DateTime.saturday
+                            ? Colors.blue
+                            : day.weekday == DateTime.sunday
+                                ? Colors.red
+                                : null),
+                  ),
+                );
+              },
+              selectedBuilder: (context, day, focusedDay) {
+                final text = day.day.toString();
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 2, left: 2, right: 2),
+                  child: AnimatedContainer(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.purple[200],
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  );
-                }
-
-                if (day.weekday == DateTime.saturday) {
-                  final text = DateFormat.E().format(day);
-
-                  return Center(
-                    child: Text(
-                      text,
-                      style: TextStyle(color: Colors.blue),
+                    duration: Duration(microseconds: 2000),
+                    child: Align(
+                      alignment: Alignment(-0.6, -0.75),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  );
+                  ),
+                );
+              },
+              markerBuilder: (context, day, events) {
+                if (events.isNotEmpty) {
+                  return _eventsMarker(events, day, _selectedDay);
+                } else {
+                  return null;
                 }
-
-                return null;
               },
             ),
             focusedDay: _today,
@@ -113,16 +177,6 @@ class _CalenderState extends State<Calender> {
             headerStyle: HeaderStyle(
               formatButtonVisible: false,
               titleCentered: true,
-            ),
-            calendarStyle: CalendarStyle(
-              todayDecoration: BoxDecoration(
-                color: Colors.blue[500]!.withOpacity(0.7),
-                shape: BoxShape.circle,
-              ),
-              selectedDecoration: BoxDecoration(
-                color: Colors.purple[200]!.withOpacity(0.5),
-                shape: BoxShape.circle,
-              ),
             ),
             eventLoader: calenderService.getEventsForDay,
           ),

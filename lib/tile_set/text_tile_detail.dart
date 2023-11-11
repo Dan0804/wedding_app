@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/calender_set/calender.dart';
+import 'package:wedding_app/service_set/tile_service.dart';
 
-import '../calender_set/calender_service.dart';
+import '../service_set/calender_service.dart';
 
 class TextTileDetail extends StatefulWidget {
   const TextTileDetail({super.key});
@@ -13,7 +14,7 @@ class TextTileDetail extends StatefulWidget {
 }
 
 class _TextTileDetailState extends State<TextTileDetail> {
-  var selectedDay = DateTime(1994, 8, 4);
+  var selectedDay = DateTime.utc(1994, 8, 4);
 
   void setDate(DateTime selectedDay) {
     setState(() {
@@ -48,7 +49,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Consumer<CalenderService>(builder: (context, calenderService, child) {
+                      Consumer2<CalenderService, TileService>(builder: (context, calenderService, tileService, child) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -65,7 +66,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      selectedDay == DateTime(1994, 8, 4) ? "Unselected" : DateFormat("yyyy/MM/dd  EEEE").format(selectedDay),
+                                      selectedDay == DateTime.utc(1994, 8, 4) ? "Unselected" : DateFormat("yyyy/MM/dd EEEE").format(selectedDay),
                                       style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
@@ -143,8 +144,11 @@ class _TextTileDetailState extends State<TextTileDetail> {
                               onPressed: () {
                                 calenderService.addEvents(
                                   selectedDay,
-                                  [Events("${DateTime.now()}")],
+                                  [
+                                    Events("${DateTime.now()}"),
+                                  ],
                                 );
+
                                 Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(

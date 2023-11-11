@@ -5,16 +5,17 @@ class Events {
   Events(this.title);
 }
 
+final DateTime utcTime = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
 class CalenderService with ChangeNotifier {
   Map<DateTime, List<Events>> events = {};
   List<Events> selectedEventsInCalender = [];
   List<Events> selectedEventsInTile = [];
-  DateTime selectedCalenderDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  DateTime selectedTileDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  final DateTime initDate = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime selectedCalenderDate = utcTime;
+  DateTime selectedTileDate = utcTime;
 
   void initDateInTile() {
-    selectedEventsInTile = getEventsForDay(initDate);
+    selectedEventsInTile = getEventsForDay(utcTime);
   }
 
   void addEvents(DateTime day, List<Events> title) {
