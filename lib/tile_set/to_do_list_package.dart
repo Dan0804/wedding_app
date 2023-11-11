@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
-import 'package:wedding_app/tile_set/doing_text_tile.dart';
-import 'package:wedding_app/tile_set/before_text_tile.dart';
-import 'package:wedding_app/tile_set/end_text_tile.dart';
+import 'package:wedding_app/tile_set/tile_form.dart';
 
 class ToDoListPackage extends StatefulWidget {
   const ToDoListPackage({super.key});
@@ -64,9 +62,9 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
               child: Card(
                 elevation: 10,
                 child: Consumer<TileService>(builder: (context, tileService, child) {
-                  var beforeList = tileService.sortedList("before");
-                  var doingList = tileService.sortedList("doing");
-                  var doneList = tileService.sortedList("done");
+                  var beforeList = tileService.sortedList(0);
+                  var doingList = tileService.sortedList(1);
+                  var doneList = tileService.sortedList(2);
                   return Row(
                     children: [
                       Flexible(
@@ -86,9 +84,7 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
                                   child: ListView.builder(
                                     itemCount: beforeList.length,
                                     itemBuilder: (context, index) {
-                                      return BeforeTextTile(
-                                        tileData: beforeList[index],
-                                      );
+                                      return TileForm(tileData: beforeList[index]);
                                     },
                                   ),
                                 ),
@@ -122,7 +118,7 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
                                   child: ListView.builder(
                                     itemCount: doingList.length,
                                     itemBuilder: (context, index) {
-                                      return DoingTextTile();
+                                      return TileForm(tileData: doingList[index]);
                                     },
                                   ),
                                 ),
@@ -156,7 +152,7 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
                                   child: ListView.builder(
                                     itemCount: doneList.length,
                                     itemBuilder: (context, index) {
-                                      return EndTextTile();
+                                      return TileForm(tileData: doneList[index]);
                                     },
                                   ),
                                 ),
