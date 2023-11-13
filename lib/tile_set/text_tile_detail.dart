@@ -3,18 +3,24 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
-
 import '../service_set/calender_service.dart';
 
 class TextTileDetail extends StatefulWidget {
-  const TextTileDetail({super.key});
+  const TextTileDetail({
+    super.key,
+    required this.tileData,
+  });
+
+  final Tiles tileData;
 
   @override
   State<TextTileDetail> createState() => _TextTileDetailState();
 }
 
 class _TextTileDetailState extends State<TextTileDetail> {
-  var selectedDay = DateTime.utc(1994, 8, 4);
+  late DateTime selectedDay;
+  late List checkBoxs;
+  bool reset = false;
 
   void setDate(DateTime selectedDay) {
     setState(() {
@@ -22,8 +28,20 @@ class _TextTileDetailState extends State<TextTileDetail> {
     });
   }
 
+  TextEditingController title = TextEditingController();
+  TextEditingController checkBoxContent = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    var tileData = widget.tileData.tileDatas;
+
+    if (!reset) {
+      selectedDay = tileData["arranged_date"];
+      title.text = tileData["title"];
+      checkBoxs = tileData["checkboxs"];
+      reset = true;
+    }
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: 600,
@@ -33,24 +51,32 @@ class _TextTileDetailState extends State<TextTileDetail> {
         aspectRatio: 3 / 2,
         child: Stack(
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 52.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "제목",
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+            Consumer2<CalenderService, TileService>(builder: (context, calenderService, tileService, child) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 52.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: title,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                      Consumer2<CalenderService, TileService>(builder: (context, calenderService, tileService, child) {
-                        return Row(
+                        SizedBox(
+                          width: 28,
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Card(
@@ -148,6 +174,12 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                     Events("${DateTime.now()}"),
                                   ],
                                 );
+                                tileService.changeContents(
+                                  tileData["tile_id"],
+                                  tileData["title"],
+                                  tileData["arranged_date"],
+                                  tileData["checkboxs"],
+                                );
 
                                 Navigator.pop(context);
                               },
@@ -163,63 +195,89 @@ class _TextTileDetailState extends State<TextTileDetail> {
                               ),
                             ),
                           ],
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0,
+                        ),
+                      ],
                     ),
-                    child: Card(
-                      elevation: 5,
-                      child: ListView.builder(
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 4.0,
-                              horizontal: 12.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: false,
-                                  onChanged: (value) {
-                                    value = true;
-                                  },
-                                ),
-                                Expanded(
-                                  child: Card(
-                                    elevation: 5,
-                                    color: Colors.black12,
-                                    child: SizedBox(
-                                      height: 40,
-                                      child: Text("checkbox tile"),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0,
+                      ),
+                      child: Card(
+                        elevation: 5,
+                        child: ListView.builder(
+                          itemCount: checkBoxs.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 12.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: checkBoxs[index]["isChecked"],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        checkBoxs[index]["isChecked"] = value!;
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 5,
+                                      color: Colors.black12,
+                                      child: SizedBox(
+                                        height: 56,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 16.0),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: TextFormField(
+                                              controller: checkBoxContent,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                              onChanged: (value) {
+                                                checkBoxs[index]["context"] = value;
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              );
+            }),
             Positioned(
               right: 56,
               bottom: 32,
               child: ElevatedButton(
                 onPressed: () {
-                  print("press add checkList button");
+                  setState(() {
+                    checkBoxs.add(
+                      {
+                        "isChecked": false,
+                        "content": "",
+                      },
+                    );
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 10,

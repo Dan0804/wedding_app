@@ -114,7 +114,9 @@ class _TileFormState extends State<TileForm> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              content: TextTileDetail(),
+              content: TextTileDetail(
+                tileData: widget.tileData,
+              ),
             );
           },
         );

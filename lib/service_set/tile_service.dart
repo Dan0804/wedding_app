@@ -79,4 +79,14 @@ class TileService with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void changeContents(String tileId, String title, DateTime arrangeDate, List checkBox) {
+    var thisTile = defaultTileData.firstWhere((element) => element.tileDatas["tile_id"] == tileId);
+
+    thisTile.tileDatas["title"] = title;
+    thisTile.tileDatas["arranged_date"] = arrangeDate;
+    thisTile.tileDatas["checkboxs"] = checkBox;
+
+    notifyListeners();
+  }
 }
