@@ -29,7 +29,6 @@ class _TextTileDetailState extends State<TextTileDetail> {
   }
 
   TextEditingController title = TextEditingController();
-  TextEditingController checkBoxContent = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -130,19 +129,15 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Column(
-                                                      children: [
-                                                        Text("${calenderService.selectedCalenderDate}"),
-                                                        Flexible(
-                                                          fit: FlexFit.tight,
-                                                          child: SizedBox(
-                                                            width: 300,
-                                                            child: CalenderDetail(
-                                                              textTile: true,
-                                                            ),
-                                                          ),
+                                                    Flexible(
+                                                      fit: FlexFit.tight,
+                                                      child: SizedBox(
+                                                        width: 300,
+                                                        height: double.infinity,
+                                                        child: CalenderDetail(
+                                                          textTile: true,
                                                         ),
-                                                      ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -171,14 +166,14 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                 calenderService.addEvents(
                                   selectedDay,
                                   [
-                                    Events("${DateTime.now()}"),
+                                    Events(title.text),
                                   ],
                                 );
                                 tileService.changeContents(
                                   tileData["tile_id"],
-                                  tileData["title"],
-                                  tileData["arranged_date"],
-                                  tileData["checkboxs"],
+                                  title.text,
+                                  selectedDay,
+                                  checkBoxs,
                                 );
 
                                 Navigator.pop(context);
@@ -212,6 +207,12 @@ class _TextTileDetailState extends State<TextTileDetail> {
                         child: ListView.builder(
                           itemCount: checkBoxs.length,
                           itemBuilder: (context, index) {
+                            TextEditingController boxText = TextEditingController();
+
+                            if (checkBoxs[index]["content"].isNotEmpty) {
+                              boxText.text = checkBoxs[index]["content"];
+                            }
+
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 4.0,
@@ -238,7 +239,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                           child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: TextFormField(
-                                              controller: checkBoxContent,
+                                              controller: boxText,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                               ),
@@ -246,7 +247,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                                 fontSize: 20,
                                               ),
                                               onChanged: (value) {
-                                                checkBoxs[index]["context"] = value;
+                                                checkBoxs[index]["content"] = value;
                                               },
                                             ),
                                           ),
@@ -274,6 +275,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                     checkBoxs.add(
                       {
                         "isChecked": false,
+                        "editContent": false,
                         "content": "",
                       },
                     );
