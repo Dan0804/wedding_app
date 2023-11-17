@@ -11,25 +11,53 @@ class ToDoListPackage extends StatefulWidget {
 }
 
 class _ToDoListPackageState extends State<ToDoListPackage> {
-  Widget smallTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Card(
-        elevation: 5,
+  Widget tileColumn(String title, int status) {
+    return Consumer<TileService>(builder: (context, tileService, child) {
+      var dataList = tileService.sortedList(status);
+      return Flexible(
+        flex: 1,
+        fit: FlexFit.tight,
         child: SizedBox(
-          height: 36,
-          width: 128,
-          child: Center(
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
+          height: double.infinity,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Card(
+                  elevation: 5,
+                  child: SizedBox(
+                    height: 36,
+                    width: 128,
+                    child: Center(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
+              Flexible(
+                fit: FlexFit.tight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                  ),
+                  child: ListView.builder(
+                    itemCount: dataList.length,
+                    itemBuilder: (context, index) {
+                      return TileForm(tileData: dataList[index]);
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   bool visible = false;
@@ -61,109 +89,29 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
               width: double.infinity,
               child: Card(
                 elevation: 10,
-                child: Consumer<TileService>(builder: (context, tileService, child) {
-                  var beforeList = tileService.sortedList(0);
-                  var doingList = tileService.sortedList(1);
-                  var doneList = tileService.sortedList(2);
-                  return Row(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: SizedBox(
-                          height: double.infinity,
-                          child: Column(
-                            children: [
-                              smallTitle("Before"),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: beforeList.length,
-                                    itemBuilder: (context, index) {
-                                      return TileForm(tileData: beforeList[index]);
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                child: Row(
+                  children: [
+                    tileColumn("Before", 0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black45),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black45),
-                          ),
+                    ),
+                    tileColumn("Doing", 1),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black45),
                         ),
                       ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: SizedBox(
-                          height: double.infinity,
-                          child: Column(
-                            children: [
-                              smallTitle("Doing"),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: doingList.length,
-                                    itemBuilder: (context, index) {
-                                      return TileForm(tileData: doingList[index]);
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black45),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: SizedBox(
-                          height: double.infinity,
-                          child: Column(
-                            children: [
-                              smallTitle("Done"),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: doneList.length,
-                                    itemBuilder: (context, index) {
-                                      return TileForm(tileData: doneList[index]);
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }),
+                    ),
+                    tileColumn("Done", 2),
+                  ],
+                ),
               ),
             ),
           ),
