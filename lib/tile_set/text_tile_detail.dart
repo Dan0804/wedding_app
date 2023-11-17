@@ -165,9 +165,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                               onPressed: () {
                                 calenderService.addEvents(
                                   selectedDay,
-                                  [
-                                    Events(title.text),
-                                  ],
+                                  Events(title.text),
                                 );
                                 tileService.changeContents(
                                   tileData["tile_id"],

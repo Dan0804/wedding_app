@@ -18,9 +18,15 @@ class CalenderService with ChangeNotifier {
     selectedEventsInTile = getEventsForDay(utcTime);
   }
 
-  void addEvents(DateTime day, List<Events> title) {
+  void addEvents(DateTime day, Events title) {
     DateTime editedDay = DateTime.utc(day.year, day.month, day.day);
-    events.addAll({editedDay: title});
+    if (events[editedDay] != null) {
+      events[editedDay]!.add(title);
+    } else {
+      events.addAll({
+        editedDay: [title]
+      });
+    }
     initDateInTile();
 
     if (selectedCalenderDate == editedDay) {
