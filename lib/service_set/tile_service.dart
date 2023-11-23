@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 
-class Tiles {
-  final Map<String, dynamic> tileDatas;
+class CheckBoxs {
+  bool isChecked;
+  String text;
 
-  Tiles(this.tileDatas);
+  CheckBoxs(this.isChecked, this.text);
+}
+
+class Tiles {
+  String title;
+  final String tileId;
+  int state;
+  DateTime arrangeDate;
+  List<CheckBoxs> checkBoxs;
+
+  Tiles(this.title, this.tileId, this.state, this.arrangeDate, this.checkBoxs);
 
   /* Tile 구성
       title(String) : tile의 title
@@ -28,31 +39,25 @@ class Tiles {
 class TileService with ChangeNotifier {
   List<Tiles> defaultTileData = [
     Tiles(
-      {
-        "title": "웨딩홀 잡기",
-        "tile_id": "123456dnrerf",
-        "status": 0,
-        "arranged_date": DateTime.utc(1994, 8, 4),
-        "checkboxs": [],
-      },
+      "웨딩홀 잡기",
+      "123456dnrerf",
+      0,
+      DateTime.utc(1994, 8, 4),
+      [],
     ),
     Tiles(
-      {
-        "title": "스튜디오 잡기",
-        "tile_id": "asdfadsfasdf",
-        "status": 0,
-        "arranged_date": DateTime.utc(1994, 8, 4),
-        "checkboxs": [],
-      },
+      "스튜디오 잡기",
+      "asdfadsfasdf",
+      0,
+      DateTime.utc(1994, 8, 4),
+      [],
     ),
     Tiles(
-      {
-        "title": "신혼여행 잡기",
-        "tile_id": "bvnmv1243q3",
-        "status": 1,
-        "arranged_date": DateTime.utc(1994, 8, 4),
-        "checkboxs": [],
-      },
+      "신혼여행 잡기",
+      "bvnmv1243q3",
+      1,
+      DateTime.utc(1994, 8, 4),
+      [],
     ),
   ];
 
@@ -60,7 +65,7 @@ class TileService with ChangeNotifier {
     List<Tiles> sortedList = [];
 
     for (Tiles tile in defaultTileData) {
-      if (tile.tileDatas["status"] == status) {
+      if (tile.state == status) {
         sortedList.add(tile);
       }
     }
@@ -72,20 +77,20 @@ class TileService with ChangeNotifier {
     var thisTile = defaultTileData.firstWhere((element) => element == tile);
 
     if (arrow == "forward") {
-      thisTile.tileDatas["status"] += 1;
+      thisTile.state += 1;
     } else {
-      thisTile.tileDatas["status"] -= 1;
+      thisTile.state -= 1;
     }
 
     notifyListeners();
   }
 
-  void changeContents(String tileId, String title, DateTime arrangeDate, List checkBox) {
-    var thisTile = defaultTileData.firstWhere((element) => element.tileDatas["tile_id"] == tileId);
+  void changeContents(String tileId, String title, DateTime arrangeDate, List<CheckBoxs> checkBox) {
+    var thisTile = defaultTileData.firstWhere((element) => element.tileId == tileId);
 
-    thisTile.tileDatas["title"] = title;
-    thisTile.tileDatas["arranged_date"] = arrangeDate;
-    thisTile.tileDatas["checkboxs"] = checkBox;
+    thisTile.title = title;
+    thisTile.arrangeDate = arrangeDate;
+    thisTile.checkBoxs = checkBox;
 
     notifyListeners();
   }

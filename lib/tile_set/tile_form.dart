@@ -20,7 +20,7 @@ class _TileFormState extends State<TileForm> {
   bool backVisible = false;
 
   Widget backwardArrowWidget(Tiles tileData) {
-    if (tileData.tileDatas["status"] != 0) {
+    if (tileData.state != 0) {
       return Consumer<TileService>(
         builder: (context, tileService, child) {
           return Positioned(
@@ -62,7 +62,7 @@ class _TileFormState extends State<TileForm> {
   }
 
   Widget forwardArrowWidget(Tiles tileData) {
-    if (tileData.tileDatas["status"] != 2) {
+    if (tileData.state != 2) {
       return Consumer<TileService>(
         builder: (context, tileService, child) {
           return Positioned(
@@ -129,7 +129,7 @@ class _TileFormState extends State<TileForm> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Text(widget.tileData.tileDatas["title"]),
+              Text(widget.tileData.title),
               forwardArrowWidget(widget.tileData),
               backwardArrowWidget(widget.tileData),
             ],

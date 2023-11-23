@@ -19,7 +19,7 @@ class TextTileDetail extends StatefulWidget {
 
 class _TextTileDetailState extends State<TextTileDetail> {
   late DateTime selectedDay;
-  late List checkBoxs;
+  late List<CheckBoxs> checkBoxs;
   bool reset = false;
 
   void setDate(DateTime selectedDay) {
@@ -32,12 +32,12 @@ class _TextTileDetailState extends State<TextTileDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var tileData = widget.tileData.tileDatas;
+    var tileData = widget.tileData;
 
     if (!reset) {
-      selectedDay = tileData["arranged_date"];
-      title.text = tileData["title"];
-      checkBoxs = tileData["checkboxs"];
+      selectedDay = tileData.arrangeDate;
+      title.text = tileData.title;
+      checkBoxs = tileData.checkBoxs;
       reset = true;
     }
 
@@ -168,7 +168,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                   Events(title.text),
                                 );
                                 tileService.changeContents(
-                                  tileData["tile_id"],
+                                  tileData.tileId,
                                   title.text,
                                   selectedDay,
                                   checkBoxs,
@@ -207,8 +207,8 @@ class _TextTileDetailState extends State<TextTileDetail> {
                           itemBuilder: (context, index) {
                             TextEditingController boxText = TextEditingController();
 
-                            if (checkBoxs[index]["content"].isNotEmpty) {
-                              boxText.text = checkBoxs[index]["content"];
+                            if (checkBoxs[index].text.isNotEmpty) {
+                              boxText.text = checkBoxs[index].text;
                             }
 
                             return Padding(
@@ -219,10 +219,10 @@ class _TextTileDetailState extends State<TextTileDetail> {
                               child: Row(
                                 children: [
                                   Checkbox(
-                                    value: checkBoxs[index]["isChecked"],
+                                    value: checkBoxs[index].isChecked,
                                     onChanged: (value) {
                                       setState(() {
-                                        checkBoxs[index]["isChecked"] = value!;
+                                        checkBoxs[index].isChecked = value!;
                                       });
                                     },
                                   ),
@@ -245,7 +245,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                                 fontSize: 20,
                                               ),
                                               onChanged: (value) {
-                                                checkBoxs[index]["content"] = value;
+                                                checkBoxs[index].text = value;
                                               },
                                             ),
                                           ),
@@ -271,11 +271,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                 onPressed: () {
                   setState(() {
                     checkBoxs.add(
-                      {
-                        "isChecked": false,
-                        "editContent": false,
-                        "content": "",
-                      },
+                      CheckBoxs(false, ""),
                     );
                   });
                 },
