@@ -21,18 +21,7 @@ class Tiles {
       tile_id(String) : 난수로 형성?
       status(int) : 0(before), 1(doing), 2(done)으로 구분하기
       arrange_data(DateTime) : 1994.8.4는 날짜를 선택하지 않았을 시 default값, 선택하면 그 날로 입력
-      checkboxs(List<Map<String, dynamic>>) : Map에는 checkbox status와 text만 넣기
-
-       --------- checkbox example ----------
-      | {                                   |
-      |   "checkbox" : false,               |
-      |   "text" : "text contents"          |
-      | },                                  |
-      | {                                   |
-      |   "checkbox" : false,               |
-      |   "text" : "another text contents"  |
-      | }                                   |
-       -------------------------------------
+      checkboxs(List<CheckBoxs>) : CheckBoxs class에는 isChecked와 text만 넣기
   */
 }
 
