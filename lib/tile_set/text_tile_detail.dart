@@ -163,10 +163,6 @@ class _TextTileDetailState extends State<TextTileDetail> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                calenderService.addEvents(
-                                  selectedDay,
-                                  Events(title.text),
-                                );
                                 tileService.changeContents(
                                   tileData.tileId,
                                   title.text,

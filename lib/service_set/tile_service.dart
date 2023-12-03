@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedding_app/service_set/calender_service.dart';
 
 class CheckBoxs {
   bool isChecked;
@@ -10,18 +11,27 @@ class CheckBoxs {
 class Tiles {
   String title;
   final String tileId;
+  final String userId;
   int state;
   DateTime arrangeDate;
   List<CheckBoxs> checkBoxs;
 
-  Tiles(this.title, this.tileId, this.state, this.arrangeDate, this.checkBoxs);
+  Tiles(
+    this.title,
+    this.tileId,
+    this.userId,
+    this.state,
+    this.arrangeDate,
+    this.checkBoxs,
+  );
 
   /* Tile 구성
       title(String) : tile의 title
-      tile_id(String) : 난수로 형성?
-      status(int) : 0(before), 1(doing), 2(done)으로 구분하기
-      arrange_data(DateTime) : 1994.8.4는 날짜를 선택하지 않았을 시 default값, 선택하면 그 날로 입력
-      checkboxs(List<CheckBoxs>) : CheckBoxs class에는 isChecked와 text만 넣기
+      tileId(String) : 난수로 형성?
+      userId(String) : 난수로 형성?
+      state(int) : 0(before), 1(doing), 2(done)으로 구분하기
+      arrangeDate(DateTime) : 1994.8.4는 날짜를 선택하지 않았을 시 default값, 선택하면 그 날로 입력
+      checkBoxs(List<CheckBoxs>) : CheckBoxs class에는 isChecked와 text만 넣기
   */
 }
 
@@ -30,13 +40,15 @@ class TileService with ChangeNotifier {
     Tiles(
       "웨딩홀 잡기",
       "123456dnrerf",
+      "123123asdasd",
       0,
-      DateTime.utc(1994, 8, 4),
+      DateTime.utc(2023, 12, 8),
       [],
     ),
     Tiles(
       "스튜디오 잡기",
       "asdfadsfasdf",
+      "123123asdasd",
       0,
       DateTime.utc(1994, 8, 4),
       [],
@@ -44,13 +56,14 @@ class TileService with ChangeNotifier {
     Tiles(
       "신혼여행 잡기",
       "bvnmv1243q3",
+      "123123asdasd",
       1,
       DateTime.utc(1994, 8, 4),
       [],
     ),
   ];
 
-  List sortedList(int status) {
+  List<Tiles> sortedList(int status) {
     List<Tiles> sortedList = [];
 
     for (Tiles tile in defaultTileData) {
@@ -58,6 +71,8 @@ class TileService with ChangeNotifier {
         sortedList.add(tile);
       }
     }
+
+    CalenderService().collectEvents(sortedList);
 
     return sortedList;
   }
