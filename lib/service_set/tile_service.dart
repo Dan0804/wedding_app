@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/service_set/calender_service.dart';
 
 class CheckBoxs {
   bool isChecked;
@@ -25,18 +24,27 @@ class Tiles {
     this.checkBoxs,
   );
 
-  /* Tile 구성
+  /* Tiles 구성
       title(String) : tile의 title
       tileId(String) : 난수로 형성?
       userId(String) : 난수로 형성?
-      state(int) : 0(before), 1(doing), 2(done)으로 구분하기
+      state(int) : 0(Backlog), 1(Progress), 2(Done)으로 구분하기
       arrangeDate(DateTime) : 1994.8.4는 날짜를 선택하지 않았을 시 default값, 선택하면 그 날로 입력
       checkBoxs(List<CheckBoxs>) : CheckBoxs class에는 isChecked와 text만 넣기
   */
 }
 
+class Events {
+  final String title;
+  Events(this.title);
+}
+
+final DateTime utcTime = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+Map<DateTime, List<Events>> events = {};
+
 class TileService with ChangeNotifier {
-  List<Tiles> defaultTileData = [
+  // tile data area
+  List<Tiles> tileData = [
     Tiles(
       "웨딩홀 잡기",
       "123456dnrerf",
@@ -66,19 +74,30 @@ class TileService with ChangeNotifier {
   List<Tiles> sortedList(int status) {
     List<Tiles> sortedList = [];
 
-    for (Tiles tile in defaultTileData) {
+    for (Tiles tile in tileData) {
       if (tile.state == status) {
         sortedList.add(tile);
       }
     }
 
-    CalenderService().collectEvents(sortedList);
-
     return sortedList;
   }
 
+  void collectEvents() {
+    Map<DateTime, List<Events>> tempEvents = {};
+    for (Tiles tile in tileData) {
+      if (tempEvents[tile.arrangeDate] != null) {
+        tempEvents[tile.arrangeDate]!.add(Events(tile.title));
+      } else {
+        tempEvents[tile.arrangeDate] = [Events(tile.title)];
+      }
+    }
+
+    events = tempEvents;
+  }
+
   void changeStatus(Tiles tile, String arrow) {
-    var thisTile = defaultTileData.firstWhere((element) => element == tile);
+    var thisTile = tileData.firstWhere((element) => element == tile);
 
     if (arrow == "forward") {
       thisTile.state += 1;
@@ -90,12 +109,35 @@ class TileService with ChangeNotifier {
   }
 
   void changeContents(String tileId, String title, DateTime arrangeDate, List<CheckBoxs> checkBox) {
-    var thisTile = defaultTileData.firstWhere((element) => element.tileId == tileId);
+    var thisTile = tileData.firstWhere((element) => element.tileId == tileId);
 
     thisTile.title = title;
     thisTile.arrangeDate = arrangeDate;
     thisTile.checkBoxs = checkBox;
 
     notifyListeners();
+  }
+
+  // calender data area
+
+  // divided data in calender_set and text_tile_detail
+  List<Events> selectedEventsInCalender = [];
+  List<Events> selectedEventsInTile = [];
+  DateTime selectedCalenderDate = utcTime;
+  DateTime selectedTileDate = utcTime;
+
+  void addDetail(DateTime selectedDay, bool textTile) {
+    if (textTile) {
+      selectedEventsInTile = getEventsForDay(selectedDay);
+      selectedTileDate = selectedDay;
+    } else {
+      selectedEventsInCalender = getEventsForDay(selectedDay);
+      selectedCalenderDate = selectedDay;
+    }
+    notifyListeners();
+  }
+
+  List<Events> getEventsForDay(DateTime day) {
+    return events[day] ?? [];
   }
 }

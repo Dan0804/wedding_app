@@ -15,10 +15,10 @@ class CalenderDetail extends StatefulWidget {
 class _CalenderDetailState extends State<CalenderDetail> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CalenderService>(
-      builder: (context, calenderService, child) => ListView.builder(
+    return Consumer<TileService>(
+      builder: (context, tileService, child) => ListView.builder(
         shrinkWrap: true,
-        itemCount: widget.textTile ? calenderService.selectedEventsInTile.length : calenderService.selectedEventsInCalender.length,
+        itemCount: widget.textTile ? tileService.selectedEventsInTile.length : tileService.selectedEventsInCalender.length,
         itemBuilder: (context, index) {
           return Card(
             elevation: 5,
@@ -26,7 +26,7 @@ class _CalenderDetailState extends State<CalenderDetail> {
             child: SizedBox(
               height: 64,
               child: Center(
-                child: Text(widget.textTile ? calenderService.selectedEventsInTile[index].title : calenderService.selectedEventsInCalender[index].title),
+                child: Text(widget.textTile ? tileService.selectedEventsInTile[index].title : tileService.selectedEventsInCalender[index].title),
               ),
             ),
           );

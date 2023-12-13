@@ -60,7 +60,6 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
     });
   }
 
-  bool visible = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,38 +82,41 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
               ],
             ),
           ),
-          Flexible(
-            fit: FlexFit.tight,
-            child: SizedBox(
-              width: double.infinity,
-              child: Card(
-                elevation: 10,
-                child: Row(
-                  children: [
-                    tileColumn("Before", 0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black45),
+          Consumer<TileService>(builder: (context, tileService, child) {
+            tileService.collectEvents();
+            return Flexible(
+              fit: FlexFit.tight,
+              child: SizedBox(
+                width: double.infinity,
+                child: Card(
+                  elevation: 10,
+                  child: Row(
+                    children: [
+                      tileColumn("Before", 0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black45),
+                          ),
                         ),
                       ),
-                    ),
-                    tileColumn("Doing", 1),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black45),
+                      tileColumn("Doing", 1),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black45),
+                          ),
                         ),
                       ),
-                    ),
-                    tileColumn("Done", 2),
-                  ],
+                      tileColumn("Done", 2),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

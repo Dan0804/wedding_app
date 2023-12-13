@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:wedding_app/service_set/calender_service.dart';
+import 'package:wedding_app/service_set/tile_service.dart';
 part 'calender_detail_tile.dart';
 
 class Calender extends StatefulWidget {
@@ -53,8 +53,8 @@ class _CalenderState extends State<Calender> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CalenderService>(
-      builder: (context, calenderService, child) => Stack(
+    return Consumer<TileService>(
+      builder: (context, tileService, child) => Stack(
         children: [
           TableCalendar(
             calendarBuilders: CalendarBuilders(
@@ -164,7 +164,7 @@ class _CalenderState extends State<Calender> {
               setState(() {
                 _selectedDay = day;
                 _today = focusedDay;
-                calenderService.addDetail(
+                tileService.addDetail(
                   _selectedDay,
                   widget.textTile,
                 );
@@ -178,7 +178,7 @@ class _CalenderState extends State<Calender> {
               formatButtonVisible: false,
               titleCentered: true,
             ),
-            eventLoader: calenderService.getEventsForDay,
+            eventLoader: tileService.getEventsForDay,
           ),
           widget.textTile
               ? Positioned(

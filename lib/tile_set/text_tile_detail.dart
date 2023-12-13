@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
-import '../service_set/calender_service.dart';
 
 class TextTileDetail extends StatefulWidget {
   const TextTileDetail({
@@ -50,7 +49,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
         aspectRatio: 3 / 2,
         child: Stack(
           children: [
-            Consumer2<CalenderService, TileService>(builder: (context, calenderService, tileService, child) {
+            Consumer<TileService>(builder: (context, tileService, child) {
               return Column(
                 children: [
                   Padding(
@@ -146,8 +145,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                           },
                                         ).then((value) {
                                           if (value == null) {
-                                            calenderService.addDetail(DateTime.now(), true);
-                                            calenderService.initDateInTile();
+                                            tileService.addDetail(DateTime.now(), true);
                                             return;
                                           }
                                         });
