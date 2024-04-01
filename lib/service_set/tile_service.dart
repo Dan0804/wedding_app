@@ -50,7 +50,7 @@ class TileService with ChangeNotifier {
       "123456dnrerf",
       "123123asdasd",
       0,
-      DateTime.utc(2023, 12, 8),
+      DateTime.utc(2023, 12, 20),
       [],
     ),
     Tiles(
@@ -70,6 +70,8 @@ class TileService with ChangeNotifier {
       [],
     ),
   ];
+
+  DateTime selectedInit = utcTime;
 
   List<Tiles> sortedList(int status) {
     List<Tiles> sortedList = [];
@@ -123,18 +125,13 @@ class TileService with ChangeNotifier {
   // divided data in calender_set and text_tile_detail
   List<Events> selectedEventsInCalender = [];
   List<Events> selectedEventsInTile = [];
-  DateTime selectedCalenderDate = utcTime;
-  DateTime selectedTileDate = utcTime;
 
-  void addDetail(DateTime selectedDay, bool textTile) {
+  void addDetail(bool textTile) {
     if (textTile) {
-      selectedEventsInTile = getEventsForDay(selectedDay);
-      selectedTileDate = selectedDay;
+      selectedEventsInTile = getEventsForDay(selectedInit);
     } else {
-      selectedEventsInCalender = getEventsForDay(selectedDay);
-      selectedCalenderDate = selectedDay;
+      selectedEventsInCalender = getEventsForDay(selectedInit);
     }
-    notifyListeners();
   }
 
   List<Events> getEventsForDay(DateTime day) {

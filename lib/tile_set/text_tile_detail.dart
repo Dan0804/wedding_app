@@ -145,7 +145,7 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                           },
                                         ).then((value) {
                                           if (value == null) {
-                                            tileService.addDetail(DateTime.now(), true);
+                                            tileService.addDetail(true);
                                             return;
                                           }
                                         });
@@ -167,7 +167,6 @@ class _TextTileDetailState extends State<TextTileDetail> {
                                   selectedDay,
                                   checkBoxs,
                                 );
-
                                 Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
