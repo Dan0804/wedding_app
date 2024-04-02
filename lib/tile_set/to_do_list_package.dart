@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wedding_app/app/screens/tile_list_screen.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
 import 'package:wedding_app/tile_set/tile_form.dart';
 
-class ToDoListPackage extends StatefulWidget {
-  const ToDoListPackage({super.key});
-
+class ToDoListPackage extends StatelessWidget {
+  // const ToDoListPackage({super.key});
+  //
+  // @override
+  // State<ToDoListPackage> createState() => _ToDoListPackageState();
   @override
-  State<ToDoListPackage> createState() => _ToDoListPackageState();
+  Widget build(BuildContext context) {
+    return TileListScreen();
+  }
 }
-
+/*
 class _ToDoListPackageState extends State<ToDoListPackage> {
   Widget tileColumn(String title, int status) {
     return Consumer<TileService>(builder: (context, tileService, child) {
@@ -122,3 +127,4 @@ class _ToDoListPackageState extends State<ToDoListPackage> {
     );
   }
 }
+*/
