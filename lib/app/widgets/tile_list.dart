@@ -29,7 +29,14 @@ class TileList extends StatelessWidget {
           child: ListView.builder(
             itemCount: tiles.length,
             itemBuilder: (context, index) {
-              return TileWidget(tile: tiles[index]);
+              return TileWidget(
+                tile: tiles[index],
+                // onStatusChanged: (newStatus) { // 카드 상태 변경 로직 추가
+                //   setState(() {
+                //     tiles[index].status = newStatus;
+                //   });
+                // },
+              );
             },
           ),
         ),
