@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wedding_app/service_set/tile_service.dart';
-import 'package:wedding_app/tile_set/text_tile_detail.dart';
+import 'package:wedding_app/models/tile_model.dart';
+import 'package:wedding_app/provider/tile_service.dart';
+import 'package:wedding_app/widget/tile_tab/content_in_tile.dart';
 
 class TileForm extends StatefulWidget {
   const TileForm({
@@ -114,7 +115,7 @@ class _TileFormState extends State<TileForm> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              content: TextTileDetail(
+              content: ContentInTile(
                 tileData: widget.tileData,
               ),
             );

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:wedding_app/calender_set/calender.dart';
-import 'package:wedding_app/service_set/tile_service.dart';
+import 'package:wedding_app/widget/calender_tab/calender.dart';
+import 'package:wedding_app/provider/tile_service.dart';
+import 'package:wedding_app/models/tile_model.dart';
 
-class TextTileDetail extends StatefulWidget {
-  const TextTileDetail({
+class ContentInTile extends StatefulWidget {
+  const ContentInTile({
     super.key,
     required this.tileData,
   });
@@ -13,10 +14,10 @@ class TextTileDetail extends StatefulWidget {
   final Tiles tileData;
 
   @override
-  State<TextTileDetail> createState() => _TextTileDetailState();
+  State<ContentInTile> createState() => _ContentInTileState();
 }
 
-class _TextTileDetailState extends State<TextTileDetail> {
+class _ContentInTileState extends State<ContentInTile> {
   late DateTime selectedDay;
   late List<CheckBoxs> checkBoxs;
   bool reset = false;

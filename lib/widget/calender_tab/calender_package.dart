@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/calender_set/calender.dart';
+import 'package:wedding_app/widget/calender_tab/calender.dart';
 
 class CalenderPackage extends StatefulWidget {
   const CalenderPackage({super.key});

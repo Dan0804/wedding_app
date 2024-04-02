@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wedding_app/app/services/card/create_card_api.dart';
-import 'package:wedding_app/calender_set/calender_package.dart';
-import 'package:wedding_app/service_set/tile_service.dart';
-import 'package:wedding_app/tile_set/to_do_list_package.dart';
-
-import 'app/screens/create_card_screen.dart';
+import 'package:wedding_app/widget/calender_tab/calender_package.dart';
+import 'package:wedding_app/provider/tile_service.dart';
+import 'package:wedding_app/widget/tile_tab/three_lists.dart';
 
 void main() {
   runApp(
@@ -27,7 +24,8 @@ class WeddingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Builder( // Add this
+      home: Builder(
+        // Add this
         builder: (context) => Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -55,13 +53,6 @@ class WeddingApp extends StatelessWidget {
                 color: Colors.black,
                 size: 32,
               ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CreateCardScreen()),
-                    );
-                  }, icon: Icon(Icons.add)),
             ],
           ),
           body: Column(
@@ -85,7 +76,7 @@ class WeddingApp extends StatelessWidget {
                     Flexible(
                       flex: 5,
                       fit: FlexFit.tight,
-                      child: ToDoListPackage(),
+                      child: ThreeLists(),
                     ),
                     Flexible(
                       flex: 2,

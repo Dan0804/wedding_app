@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wedding_app/service_set/tile_service.dart';
-import 'package:wedding_app/tile_set/tile_form.dart';
+import 'package:wedding_app/provider/tile_service.dart';
+import 'package:wedding_app/widget/tile_tab/tile_form.dart';
 
-class ToDoListPackage extends StatefulWidget {
-  const ToDoListPackage({super.key});
+class ThreeLists extends StatefulWidget {
+  const ThreeLists({super.key});
 
   @override
-  State<ToDoListPackage> createState() => _ToDoListPackageState();
+  State<ThreeLists> createState() => _ThreeListsState();
 }
 
-class _ToDoListPackageState extends State<ToDoListPackage> {
+class _ThreeListsState extends State<ThreeLists> {
   Widget tileColumn(String title, int status) {
     return Consumer<TileService>(builder: (context, tileService, child) {
       var dataList = tileService.sortedList(status);
