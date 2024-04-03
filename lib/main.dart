@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/widget/calender_tab/calender_package.dart';
 import 'package:wedding_app/provider/tile_service.dart';
-import 'package:wedding_app/widget/tile_tab/three_lists.dart';
+import 'package:wedding_app/widget/tile_tab/tile_list_view.dart';
 
 void main() {
   runApp(
@@ -76,7 +76,7 @@ class WeddingApp extends StatelessWidget {
                     Flexible(
                       flex: 5,
                       fit: FlexFit.tight,
-                      child: ThreeLists(),
+                      child: TileListView(),
                     ),
                     Flexible(
                       flex: 2,

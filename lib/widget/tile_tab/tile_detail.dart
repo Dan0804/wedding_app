@@ -5,8 +5,8 @@ import 'package:wedding_app/widget/calender_tab/calender.dart';
 import 'package:wedding_app/provider/tile_service.dart';
 import 'package:wedding_app/models/tile_model.dart';
 
-class ContentInTile extends StatefulWidget {
-  const ContentInTile({
+class TileDetail extends StatefulWidget {
+  const TileDetail({
     super.key,
     required this.tileData,
   });
@@ -14,10 +14,10 @@ class ContentInTile extends StatefulWidget {
   final Tiles tileData;
 
   @override
-  State<ContentInTile> createState() => _ContentInTileState();
+  State<TileDetail> createState() => _TileDetailState();
 }
 
-class _ContentInTileState extends State<ContentInTile> {
+class _TileDetailState extends State<TileDetail> {
   late DateTime selectedDay;
   late List<CheckBoxs> checkBoxs;
   bool reset = false;

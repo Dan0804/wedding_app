@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:wedding_app/provider/tile_service.dart';
 import 'package:wedding_app/widget/tile_tab/tile_form.dart';
 
-class ThreeLists extends StatefulWidget {
-  const ThreeLists({super.key});
+class TileListView extends StatefulWidget {
+  const TileListView({super.key});
 
   @override
-  State<ThreeLists> createState() => _ThreeListsState();
+  State<TileListView> createState() => _TileListViewState();
 }
 
-class _ThreeListsState extends State<ThreeLists> {
+class _TileListViewState extends State<TileListView> {
   Widget tileColumn(String title, int status) {
     return Consumer<TileService>(builder: (context, tileService, child) {
       var dataList = tileService.sortedList(status);
