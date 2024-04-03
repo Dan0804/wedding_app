@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wedding_app/app/services/card/create_card_api.dart';
+import 'package:wedding_app/app/services/auth_service.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
 import 'package:wedding_app/tile_set/to_do_list_package.dart';
 
 import 'app/screens/create_card_screen.dart';
+import 'app/screens/login_screen.dart';
 
 void main() {
   runApp(
@@ -13,7 +14,10 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => TileService(),
-        )
+        ),
+        ChangeNotifierProvider(
+            create: (_) => AuthService()
+        ),
       ],
       child: const WeddingApp(),
     ),
@@ -45,6 +49,15 @@ class WeddingApp extends StatelessWidget {
               ),
             ),
             actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
+                icon: Icon(Icons.login),
+              ),
               Icon(
                 Icons.person,
                 color: Colors.black,
