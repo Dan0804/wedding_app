@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class CreateCardApi {
-  final String baseUrl = "http://localhost:8080/api/v1/cards";
 
   Future<bool> createCard(String cardTitle, int budget, DateTime deadline) async {
     String url = "localhost:8080";
@@ -20,15 +18,19 @@ class CreateCardApi {
         'Accept': '*/*'
       },
     );
+
     if (response.statusCode == 201) {
       // Assuming 201 is the status code for a successful creation
       return true;
     } else {
-      // Handle errors or unsuccessful responses
-      if (kDebugMode) {
-        print('Failed to create card: ${response.body}');
-      }
-      return false;
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(decodedBody);
+
+      throw Exception(
+            'Failed to create card: '
+            'Status code: ${response.statusCode} '
+            'Response body: $jsonBody'
+      );
     }
   }
 }
