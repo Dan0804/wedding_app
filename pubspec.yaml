@@ -38,6 +38,7 @@ dependencies:
   table_calendar: ^3.0.9
   intl: ^0.18.1
   provider: ^6.0.5
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
