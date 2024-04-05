@@ -6,9 +6,26 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Wedding Planner'),
       ),
-      body: LoginForm(),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 200,
+          ),
+          Text(
+            "당신 옆의 Wedding Planner",
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 60,
+          ),
+          LoginForm(),
+        ],
+      ),
     );
   }
 }

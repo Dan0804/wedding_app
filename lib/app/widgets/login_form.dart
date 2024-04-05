@@ -20,38 +20,69 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(labelText: 'Email'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              return null;
-            },
+          SizedBox(
+            width: 300,
+            child: TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                return null;
+              },
+            ),
           ),
-          TextFormField(
-            controller: _passwordController,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
+          SizedBox(
+            height: 10,
           ),
-          ElevatedButton(
-            child: Text('Login'),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                Provider.of<AuthService>(context, listen: false).login(
-                  _emailController.text,
-                  _passwordController.text,
-                );
-              }
-            },
+          SizedBox(
+            width: 300,
+            child: TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
+            ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: Text('Login'),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Provider.of<AuthService>(context, listen: false).login(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
+                  }
+                },
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                child: Text('Register'),
+                onPressed: () {
+                  // if (_formKey.currentState!.validate()) {
+                  //   Provider.of<AuthService>(context, listen: false).login(
+                  //     _emailController.text,
+                  //     _passwordController.text,
+                  //   );
+                  // }
+                },
+              ),
+            ],
+          )
         ],
       ),
     );
