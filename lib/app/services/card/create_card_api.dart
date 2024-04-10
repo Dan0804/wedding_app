@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCardApi {
 
   Future<bool> createCard(String cardTitle, int budget, DateTime deadline) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
     String url = "localhost:8080";
     final response = await http.post(
       Uri.http(url, '/api/v1/cards'),
@@ -13,9 +17,10 @@ class CreateCardApi {
         "deadline": deadline.toIso8601String(),
       }),
       headers: {
+        'Authorization': 'Bearer $token',
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
-        'Accept': '*/*'
+        'Accept': '*/*',
       },
     );
 

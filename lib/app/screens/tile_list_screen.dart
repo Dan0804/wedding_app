@@ -21,9 +21,9 @@ class _TileListScreenState extends State<TileListScreen> {
   }
 
   Future<void> fetchData() async {
-    backlogTiles = await fetchTileApi('BACKLOG');
-    progressTiles = await fetchTileApi('PROGRESS');
-    doneTiles = await fetchTileApi('DONE');
+    backlogTiles = await getTileApi('BACKLOG');
+    progressTiles = await getTileApi('PROGRESS');
+    doneTiles = await getTileApi('DONE');
     setState(() {});
   }
   
