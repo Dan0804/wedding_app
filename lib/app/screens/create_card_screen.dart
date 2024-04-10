@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import '../services/card/create_card_api.dart';
 
 class CreateCardScreen extends StatefulWidget {
@@ -42,38 +43,43 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
       body: Form(
         key: _formKey,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Card Title'),
-              onSaved: (value) => cardTitle = value!,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a card title';
-                }
-                return null;
-              },
+            SizedBox(
+              width: 500,
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'Card Title'),
+                onSaved: (value) => cardTitle = value!,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a card title';
+                  }
+                  return null;
+                },
+              ),
             ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Budget'),
-              keyboardType: TextInputType.number,
-              onSaved: (value) => budget = int.tryParse(value!) ?? 0,
-              validator: (value) {
-                if (value == null || value.isEmpty || int.tryParse(value) == null) {
-                  return 'Please enter a valid budget';
-                }
-                return null;
-              },
+            SizedBox(
+              width: 500,
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'Budget'),
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter(enableNegative: false, locale: 'ko', symbol: 'KRW ')],
+                onSaved: (value) => budget = int.tryParse(value!) ?? 0,
+              ),
             ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Deadline (yyyy-MM-dd)'),
-              onSaved: (value) => deadline = DateFormat('yyyy-MM-dd').parse(value!),
-              validator: (value) {
-                // Implement your own validation logic (e.g., check for valid date format)
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a deadline';
-                }
-                return null;
-              },
+            SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Text("Deadline"),
+                    Icon(Icons.calendar_month),
+                  ],
+                )),
+            SizedBox(
+              height: 30,
             ),
             ElevatedButton(
               onPressed: _submitForm,
