@@ -20,6 +20,9 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> login(String email, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
     String url = "localhost:8080";
     final response = await http.post(
       Uri.http(url, '/api/v1/auth/login'),
@@ -28,7 +31,7 @@ class AuthService extends ChangeNotifier {
         'password': password,
       }),
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Authorization': 'Bearer $token',
         "Content-Type": "application/json",
         'Accept': '*/*',
       },
@@ -47,6 +50,7 @@ class AuthService extends ChangeNotifier {
 
       if (kDebugMode) {
         print('Login successful');
+        print('loginApi Token: $token');
       }
     } else {
       final decodedBody = utf8.decode(response.bodyBytes);
