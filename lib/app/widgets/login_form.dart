@@ -63,6 +63,7 @@ class _LoginFormState extends State<LoginForm> {
                     Provider.of<AuthService>(context, listen: false).login(
                       _emailController.text,
                       _passwordController.text,
+                      context,
                     );
                   }
                 },
