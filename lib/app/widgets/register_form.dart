@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wedding_app/app/screens/user_register_screen.dart';
 
-import '../services/auth_service.dart';
-
-class LoginForm extends StatefulWidget {
+class RegisterForm extends StatefulWidget {
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -20,7 +17,24 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(
+            width: 300,
+            child: TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your Name';
+                }
+                return null;
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           SizedBox(
             width: 300,
             child: TextFormField(
@@ -54,34 +68,14 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(
             height: 20,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Provider.of<AuthService>(context, listen: false).login(
-                      _emailController.text,
-                      _passwordController.text,
-                      context,
-                    );
-                  }
-                },
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                child: Text('Register'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserRegisterScreen()),
-                  );
-                },
-              ),
-            ],
+          ElevatedButton(
+            child: Text('등록하기'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          SizedBox(
+            width: double.infinity,
           )
         ],
       ),
