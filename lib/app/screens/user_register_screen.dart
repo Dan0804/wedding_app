@@ -11,7 +11,7 @@ class UserRegisterScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: 200,
+            height: 60,
           ),
           Text(
             "회원가입",
