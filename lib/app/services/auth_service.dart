@@ -26,9 +26,9 @@ class AuthService extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
-      String url = "localhost:8080";
+      var url = Uri.http("49.50.163.210:8080", '/api/v1/auth/login');
       final response = await http.post(
-        Uri.http(url, '/api/v1/auth/login'),
+        url,
         body: json.encode({
           'email': email,
           'password': password,
@@ -57,7 +57,6 @@ class AuthService extends ChangeNotifier {
         }
       } else {
         final decodedBody = utf8.decode(response.bodyBytes);
-        final jsonBody = json.decode(decodedBody);
 
         if (!context.mounted) return;
 
