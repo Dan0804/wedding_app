@@ -102,7 +102,7 @@ class AuthService extends ChangeNotifier {
           'email': email,
           'password': password,
           'name': name,
-          'nickName': '',
+          'nickName': 'nickName',
           'partnerEmail': partnerEmail,
         }),
         headers: {
