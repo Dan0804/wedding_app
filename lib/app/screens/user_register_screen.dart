@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wedding_app/app/widgets/register_form.dart';
 
 class UserRegisterScreen extends StatelessWidget {
+  const UserRegisterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

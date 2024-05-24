@@ -5,8 +5,10 @@ import 'package:wedding_app/app/screens/user_register_screen.dart';
 import '../services/auth_service.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
-  _LoginFormState createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {

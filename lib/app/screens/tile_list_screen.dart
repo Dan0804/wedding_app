@@ -5,8 +5,10 @@ import '../models/tile.dart';
 import '../widgets/tile_list.dart';
 
 class TileListScreen extends StatefulWidget {
+  const TileListScreen({super.key});
+
   @override
-  _TileListScreenState createState() => _TileListScreenState();
+  State<TileListScreen> createState() => _TileListScreenState();
 }
 
 class _TileListScreenState extends State<TileListScreen> {
@@ -26,7 +28,7 @@ class _TileListScreenState extends State<TileListScreen> {
     doneTiles = await getTileApi('DONE');
     setState(() {});
   }
-  
+
   void handleStatusChanged(Tile tile, String newStatus) {
     setState(() {
       switch (tile.tileStatus) {

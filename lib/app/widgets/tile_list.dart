@@ -3,12 +3,15 @@ import 'package:wedding_app/app/models/tile.dart';
 
 import 'tile_widget.dart';
 
-
 class TileList extends StatelessWidget {
   final String status;
   final List<Tile> tiles;
 
-  TileList({required this.status, required this.tiles});
+  const TileList({
+    super.key,
+    required this.status,
+    required this.tiles,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +34,6 @@ class TileList extends StatelessWidget {
             itemBuilder: (context, index) {
               return TileWidget(
                 tile: tiles[index],
-                // onStatusChanged: (newStatus) { // 카드 상태 변경 로직 추가
-                //   setState(() {
-                //     tiles[index].status = newStatus;
-                //   });
-                // },
               );
             },
           ),

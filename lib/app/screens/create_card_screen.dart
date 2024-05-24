@@ -5,8 +5,10 @@ import 'package:wedding_app/calender_set/calender.dart';
 import '../services/card/create_card_api.dart';
 
 class CreateCardScreen extends StatefulWidget {
+  const CreateCardScreen({super.key});
+
   @override
-  _CreateCardScreenState createState() => _CreateCardScreenState();
+  State<CreateCardScreen> createState() => _CreateCardScreenState();
 }
 
 class _CreateCardScreenState extends State<CreateCardScreen> {

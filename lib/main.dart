@@ -13,7 +13,9 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => TileService(),
         ),
-        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(
+          create: (_) => AuthService(),
+        ),
       ],
       child: const WeddingApp(),
     ),
@@ -28,14 +30,11 @@ class WeddingApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Consumer<AuthService>(
-        // AuthService를 사용하여 로그인 상태 확인
         builder: (context, authService, child) {
           authService.checkLoginStatus();
           if (authService.isLoggedIn) {
-            // 로그인되어 있으면 메인 화면으로 이동
-            return const MainScreen();
+            return MainScreen();
           } else {
-            // 로그인되어 있지 않으면 로그인 화면으로 이동
             return LoginScreen();
           }
         },

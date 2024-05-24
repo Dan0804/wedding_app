@@ -3,11 +3,11 @@ import 'package:wedding_app/app/models/tile.dart';
 
 class TileWidget extends StatelessWidget {
   final Tile tile;
-  // final Function(String) onStatusChanged;
-  //
-  // TileWidget({required this.tile, required this.onStatusChanged});
 
-  TileWidget({required this.tile});
+  const TileWidget({
+    super.key,
+    required this.tile,
+  });
 
   @override
   Widget build(BuildContext context) {
