@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wedding_app/app/screens/create_card_screen.dart';
 import 'package:wedding_app/app/screens/login_screen.dart';
+import 'package:wedding_app/app/screens/tile_list_screen.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
-import 'package:wedding_app/tile_set/to_do_list_package.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -77,7 +77,7 @@ class MainScreen extends StatelessWidget {
                 Flexible(
                   flex: 5,
                   fit: FlexFit.tight,
-                  child: ToDoListPackage(),
+                  child: TileListScreen(),
                 ),
                 Flexible(
                   flex: 2,
