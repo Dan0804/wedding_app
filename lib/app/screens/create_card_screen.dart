@@ -68,7 +68,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Budget'),
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter(enableNegative: false, locale: 'ko', symbol: 'KRW ')],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter.currency(enableNegative: false, locale: 'ko', symbol: 'KRW ')],
                   onSaved: (value) => budget = int.tryParse(value!) ?? 0,
                 ),
                 SizedBox(
