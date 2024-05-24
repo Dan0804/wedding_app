@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wedding_app/app/widgets/error_popup.dart';
 
@@ -21,14 +19,18 @@ class AuthService extends ChangeNotifier {
     return _isLoggedIn;
   }
 
-  Future<void> login(String email, String password, BuildContext context) async {
+  Future<void> login(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
-      String url = "localhost:8080";
+      var url = Uri.http("49.50.163.210:8080", '/api/v1/auth/login');
       final response = await http.post(
-        Uri.http(url, '/api/v1/auth/login'),
+        url,
         body: json.encode({
           'email': email,
           'password': password,
@@ -50,17 +52,9 @@ class AuthService extends ChangeNotifier {
 
         _isLoggedIn = true;
         notifyListeners();
-
-        if (kDebugMode) {
-          print('Login successful');
-          print('loginApi Token: $token');
-        }
       } else {
         final decodedBody = utf8.decode(response.bodyBytes);
-        final jsonBody = json.decode(decodedBody);
-
         if (!context.mounted) return;
-
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -70,6 +64,7 @@ class AuthService extends ChangeNotifier {
             });
       }
     } on Exception catch (error) {
+      if (!context.mounted) return;
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -78,6 +73,72 @@ class AuthService extends ChangeNotifier {
             );
           });
     } catch (error) {
+      if (!context.mounted) return;
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorPopUp(
+              error: error.toString(),
+            );
+          });
+    }
+  }
+
+  Future<void> register(
+    String email,
+    String password,
+    String name,
+    String nickName,
+    String partnerEmail,
+    BuildContext context,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      var url = Uri.http("49.50.163.210:8080", '/api/v1/auth/sign-up');
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'email': email,
+          'password': password,
+          'name': name,
+          'nickName': nickName,
+          'partnerEmail': partnerEmail,
+        }),
+        headers: {
+          'Authorization': 'Bearer $token',
+          "Content-Type": "application/json",
+          'Accept': '*/*',
+        },
+      );
+
+      if (response.statusCode == 201) {
+        if (!context.mounted) return;
+        Navigator.pop(context);
+        notifyListeners();
+      } else {
+        final decodedBody = utf8.decode(response.bodyBytes);
+        if (!context.mounted) return;
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return ErrorPopUp(
+                error: decodedBody.toString(),
+              );
+            });
+      }
+    } on Exception catch (error) {
+      if (!context.mounted) return;
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorPopUp(
+              error: error.toString(),
+            );
+          });
+    } catch (error) {
+      if (!context.mounted) return;
       showDialog(
           context: context,
           builder: (BuildContext context) {

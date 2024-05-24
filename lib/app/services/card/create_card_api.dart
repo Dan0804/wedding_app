@@ -3,14 +3,13 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCardApi {
-
   Future<bool> createCard(String cardTitle, int budget, DateTime deadline) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
-    String url = "localhost:8080";
+    var url = Uri.http("49.50.163.210:8080", '/api/v1/cards');
     final response = await http.post(
-      Uri.http(url, '/api/v1/cards'),
+      url,
       body: json.encode({
         "cardTitle": cardTitle,
         "budget": budget,
@@ -31,11 +30,9 @@ class CreateCardApi {
       final decodedBody = utf8.decode(response.bodyBytes);
       final jsonBody = json.decode(decodedBody);
 
-      throw Exception(
-            'Failed to create card: '
-            'Status code: ${response.statusCode} '
-            'Response body: $jsonBody'
-      );
+      throw Exception('Failed to create card: '
+          'Status code: ${response.statusCode} '
+          'Response body: $jsonBody');
     }
   }
 }
