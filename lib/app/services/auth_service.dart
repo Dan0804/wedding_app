@@ -88,7 +88,6 @@ class AuthService extends ChangeNotifier {
     String email,
     String password,
     String name,
-    String nickName,
     String partnerEmail,
     BuildContext context,
   ) async {
@@ -103,7 +102,7 @@ class AuthService extends ChangeNotifier {
           'email': email,
           'password': password,
           'name': name,
-          'nickName': nickName,
+          'nickName': '',
           'partnerEmail': partnerEmail,
         }),
         headers: {

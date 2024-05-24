@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wedding_app/app/services/auth_service.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -7,9 +9,11 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passwordCheckController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _partnerEmailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -17,32 +21,15 @@ class _RegisterFormState extends State<RegisterForm> {
       key: _formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
             width: 300,
             child: TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your Name';
-                }
-                return null;
-              },
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: 300,
-            child: TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: '가입 Email'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
+                  return '이메일이 비어있어요!';
                 }
                 return null;
               },
@@ -55,11 +42,11 @@ class _RegisterFormState extends State<RegisterForm> {
             width: 300,
             child: TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: '가입 Password'),
               obscureText: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
+                  return '비밀번호가 비어있어요!';
                 }
                 return null;
               },
@@ -68,14 +55,70 @@ class _RegisterFormState extends State<RegisterForm> {
           SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-            child: Text('등록하기'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          SizedBox(
+            width: 300,
+            child: TextFormField(
+              controller: _passwordCheckController,
+              decoration: InputDecoration(labelText: 'Password 확인'),
+              obscureText: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Password 확인해주세요!';
+                }
+                return null;
+              },
+            ),
           ),
           SizedBox(
-            width: double.infinity,
+            height: 20,
+          ),
+          SizedBox(
+            width: 300,
+            child: TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: '성명'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '이름 칸이 비어있어요!';
+                }
+                return null;
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            width: 300,
+            child: TextFormField(
+              controller: _partnerEmailController,
+              decoration: InputDecoration(labelText: 'Partner Email (나중에 입력해도 되요!)'),
+              validator: (value) {
+                return null;
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: Text('가입할게요!'),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Provider.of<AuthService>(context, listen: false).register(
+                      _emailController.text,
+                      _passwordController.text,
+                      _nameController.text,
+                      _partnerEmailController.text,
+                      context,
+                    );
+                  }
+                },
+              ),
+            ],
           )
         ],
       ),
