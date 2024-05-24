@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:intl/intl.dart';
+import 'package:wedding_app/app/screens/main_screen.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 import '../services/card/create_card_api.dart';
 
@@ -24,23 +25,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
     setState(() {
       deadline = selectedDay;
     });
-  }
-
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      bool isSuccess = await _apiService.createCard(cardTitle, budget, deadline);
-      if (isSuccess) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Card Created Successfully!')),
-        );
-        Navigator.pop(context);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to Create Card')),
-        );
-      }
-    }
   }
 
   @override
@@ -72,8 +56,8 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter.currency(locale: 'ko', decimalDigits: 0, symbol: '₩')],
                   onSaved: (value) {
-                    if (value != null) {
-                      var removeCurrency = value.split('₩');
+                    if (value != '') {
+                      var removeCurrency = value!.split('₩');
                       var removeRest = removeCurrency[1].split(',');
                       print(removeRest);
                       String budgetStr = '';
@@ -171,7 +155,26 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 SizedBox(
                   width: 150,
                   child: ElevatedButton(
-                    onPressed: _submitForm,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        bool isSuccess = await _apiService.createCard(cardTitle, budget, deadline);
+                        if (isSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Card Created Successfully!')),
+                          );
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+                            (Route<dynamic> route) => false,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to Create Card')),
+                          );
+                        }
+                      }
+                    },
                     child: Text('Create Card'),
                   ),
                 ),
