@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:intl/intl.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 import '../services/card/create_card_api.dart';
 
@@ -12,29 +13,28 @@ class CreateCardScreen extends StatefulWidget {
 }
 
 class _CreateCardScreenState extends State<CreateCardScreen> {
-  late DateTime selectedDay;
   final _formKey = GlobalKey<FormState>();
   String cardTitle = '';
   int budget = 0;
-  DateTime? deadline;
+  DateTime deadline = DateTime(1994, 8, 4);
   // Instance of your ApiService
   final CreateCardApi _apiService = CreateCardApi();
 
   void setDate(DateTime selectedDay) {
     setState(() {
-      this.selectedDay = selectedDay;
+      deadline = selectedDay;
     });
   }
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      bool isSuccess = await _apiService.createCard(cardTitle, budget, deadline as DateTime);
+      bool isSuccess = await _apiService.createCard(cardTitle, budget, deadline);
       if (isSuccess) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Card Created Successfully!')),
         );
-        // Optionally, navigate back or to another screen
+        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to Create Card')),
@@ -70,8 +70,23 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Budget'),
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter.currency(enableNegative: false, locale: 'ko', symbol: 'KRW ')],
-                  onSaved: (value) => budget = int.tryParse(value!) ?? 0,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter.currency(locale: 'ko', decimalDigits: 0, symbol: '₩')],
+                  onSaved: (value) {
+                    if (value != null) {
+                      var removeCurrency = value.split('₩');
+                      var removeRest = removeCurrency[1].split(',');
+                      print(removeRest);
+                      String budgetStr = '';
+
+                      for (int i = 0; i < removeRest.length; i++) {
+                        budgetStr = budgetStr + removeRest[i];
+                      }
+
+                      budget = int.parse(budgetStr);
+                    } else {
+                      budget = 0;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 30,
@@ -79,7 +94,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 Row(
                   children: [
                     SizedBox(
-                      width: 120,
+                      width: 140,
                       child: ElevatedButton(
                         onPressed: () {
                           showDialog<bool>(
@@ -145,7 +160,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                       width: 20,
                     ),
                     Text(
-                      "yyyy-mm-dd",
+                      deadline == DateTime(1994, 8, 4) ? '미정' : DateFormat('yyyy년 MM월 dd일 (E)', 'ko').format(deadline),
                       style: TextStyle(fontSize: 16),
                     )
                   ],
