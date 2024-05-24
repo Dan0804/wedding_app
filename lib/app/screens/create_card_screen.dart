@@ -59,7 +59,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                     if (value != '') {
                       var removeCurrency = value!.split('₩');
                       var removeRest = removeCurrency[1].split(',');
-                      print(removeRest);
                       String budgetStr = '';
 
                       for (int i = 0; i < removeRest.length; i++) {
