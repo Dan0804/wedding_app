@@ -30,6 +30,8 @@ class _RegisterFormState extends State<RegisterForm> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return '이메일이 비어있어요!';
+                } else if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").hasMatch(value)) {
+                  return '이메일 형식이 틀립니다.';
                 }
                 return null;
               },
@@ -64,6 +66,8 @@ class _RegisterFormState extends State<RegisterForm> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Password 확인해주세요!';
+                } else if (value != _passwordController.text) {
+                  return 'Password랑 틀려요!';
                 }
                 return null;
               },
@@ -94,6 +98,11 @@ class _RegisterFormState extends State<RegisterForm> {
               controller: _partnerEmailController,
               decoration: InputDecoration(labelText: 'Partner Email (나중에 입력해도 되요!)'),
               validator: (value) {
+                if (value == '') {
+                  return null;
+                } else if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").hasMatch(value!)) {
+                  return '이메일 형식이 틀립니다.';
+                }
                 return null;
               },
             ),
