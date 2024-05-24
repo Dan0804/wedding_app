@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:wedding_app/app/screens/user_register_screen.dart';
 import '../services/auth_service.dart';
 
 class LoginForm extends StatefulWidget {
@@ -74,12 +74,12 @@ class _LoginFormState extends State<LoginForm> {
               ElevatedButton(
                 child: Text('Register'),
                 onPressed: () {
-                  // if (_formKey.currentState!.validate()) {
-                  //   Provider.of<AuthService>(context, listen: false).login(
-                  //     _emailController.text,
-                  //     _passwordController.text,
-                  //   );
-                  // }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UserRegisterScreen(),
+                    ),
+                  );
                 },
               ),
             ],
