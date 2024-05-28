@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wedding_app/app/screens/create_card_screen.dart';
 import 'package:wedding_app/app/screens/login_screen.dart';
 import 'package:wedding_app/app/screens/tile_list_screen.dart';
+import 'package:wedding_app/app/services/auth_service.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
 
 class MainScreen extends StatelessWidget {
@@ -26,15 +28,20 @@ class MainScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-            icon: const Icon(Icons.login),
-          ),
+          Consumer<AuthService>(builder: (context, authService, child) {
+            return IconButton(
+              onPressed: () {
+                // authService.logOut();
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (BuildContext context) => LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              icon: const Icon(Icons.login),
+            );
+          }),
           const Icon(
             Icons.person,
             color: Colors.black,
@@ -71,6 +78,7 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           Flexible(
+            flex: 1,
             fit: FlexFit.tight,
             child: Row(
               children: [
