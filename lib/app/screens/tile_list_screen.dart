@@ -59,34 +59,57 @@ class _TileListScreenState extends State<TileListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('웨딩 투두 리스트'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: TileList(
-              status: 'BACKLOG',
-              tiles: backlogTiles,
-              // onStatusChanged: (newStatus) {
-              //   handleStatusChanged(tile, newStatus);
-              // },
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 10,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text(
+                'Wedding To Do List',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Flexible(
+                fit: FlexFit.tight,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TileList(
+                        status: 'BACKLOG',
+                        tiles: backlogTiles,
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    Expanded(
+                      child: TileList(
+                        status: 'PROGRESS',
+                        tiles: progressTiles,
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    Expanded(
+                      child: TileList(
+                        status: 'DONE',
+                        tiles: doneTiles,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: TileList(
-              status: 'PROGRESS',
-              tiles: progressTiles,
-            ),
-          ),
-          Expanded(
-            child: TileList(
-              status: 'DONE',
-              tiles: doneTiles,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
