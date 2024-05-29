@@ -54,7 +54,10 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Budget'),
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, CurrencyTextInputFormatter.currency(locale: 'ko', decimalDigits: 0, symbol: '₩')],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    CurrencyTextInputFormatter.currency(locale: 'ko', decimalDigits: 0, symbol: '₩'),
+                  ],
                   onSaved: (value) {
                     if (value != '') {
                       var removeCurrency = value!.split('₩');
