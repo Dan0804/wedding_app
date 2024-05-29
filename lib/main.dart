@@ -28,27 +28,20 @@ class WeddingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale('en'),
-        Locale('ko'),
-      ],
-      home: Consumer<AuthService>(
-        builder: (context, authService, child) {
-          authService.checkLoginStatus();
-          if (authService.isLoggedIn) {
-            return MainScreen();
-          } else {
-            return LoginScreen();
-          }
-        },
-      ),
-    );
+    context.read<AuthService>().checkLoginStatus();
+    return Consumer<AuthService>(builder: (context, authService, child) {
+      return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en'),
+            Locale('ko'),
+          ],
+          home: authService.isLoggedIn ? MainScreen() : LoginScreen());
+    });
   }
 }

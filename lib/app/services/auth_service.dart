@@ -5,18 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wedding_app/app/widgets/error_popup.dart';
 
 class AuthService extends ChangeNotifier {
-  bool _isLoggedIn = false;
-
-  bool get isLoggedIn => _isLoggedIn;
+  bool isLoggedIn = false;
 
   Future<bool> checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
-    _isLoggedIn = token != null;
+    isLoggedIn = token != null;
     notifyListeners();
 
-    return _isLoggedIn;
+    return isLoggedIn;
   }
 
   Future<void> login(
@@ -50,7 +48,7 @@ class AuthService extends ChangeNotifier {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
 
-        _isLoggedIn = true;
+        isLoggedIn = true;
         notifyListeners();
       } else {
         final decodedBody = utf8.decode(response.bodyBytes);
