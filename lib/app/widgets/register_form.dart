@@ -80,6 +80,7 @@ class _RegisterFormState extends State<RegisterForm> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (BuildContext context) {
                     return PartnerEnterPopUp();
