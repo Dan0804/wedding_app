@@ -18,10 +18,10 @@ class _PartnerEnterPopUpState extends State<PartnerEnterPopUp> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Center(
-        child: Text('파트너 등록하기'),
+        child: Text('파트너 등록하기(선택사항)'),
       ),
       content: SizedBox(
-        height: 400,
+        height: 300,
         width: 450,
         child: Form(
           key: _formKey,
@@ -101,29 +101,40 @@ class _PartnerEnterPopUpState extends State<PartnerEnterPopUp> {
         ),
       ),
       actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Column(
           children: [
-            SizedBox(
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text('등록하기'),
-              ),
+            Text(
+              '※ 나중에라도 입력할 수 있어요!',
+              style: TextStyle(fontSize: 16),
             ),
             SizedBox(
-              width: 40,
+              height: 20,
             ),
-            SizedBox(
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text('건너뛰기'),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 120,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Text('등록하기'),
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                SizedBox(
+                  width: 120,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text('건너뛰기'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
