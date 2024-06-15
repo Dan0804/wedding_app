@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../config.dart';
+
 class CreateCardApi {
+  final String _baseUrl = Config.apiUrl;
+
   Future<bool> createCard(String cardTitle, int budget, DateTime deadline) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
-    var url = Uri.http("49.50.163.210:8080", '/api/v1/cards');
     final response = await http.post(
-      url,
+      Uri.parse('$_baseUrl/cards'),
       body: json.encode({
         "cardTitle": cardTitle,
         "budget": budget,

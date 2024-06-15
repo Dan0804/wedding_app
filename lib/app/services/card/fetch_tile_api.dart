@@ -3,13 +3,16 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/tile.dart';
+import '../../../config.dart';
+
+const String _baseUrl = Config.apiUrl;
 
 Future<List<Tile>> getTileApi(String cardStatus) async {
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('token');
 
   final response = await http.get(
-    Uri.parse('http://49.50.163.210:8080/api/v1/cardboard/$cardStatus'),
+    Uri.parse('$_baseUrl/cardboard/$cardStatus'),
     headers: {
       'Authorization': 'Bearer $token',
       "Content-Type": "application/json",
