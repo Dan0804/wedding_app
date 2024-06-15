@@ -4,7 +4,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wedding_app/app/widgets/error_popup.dart';
 
+import '../../config.dart';
+
 class AuthService extends ChangeNotifier {
+  final String _baseUrl = Config.apiUrl;
   bool isLoggedIn = false;
 
   Future<bool> checkLoginStatus() async {
@@ -26,9 +29,8 @@ class AuthService extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
-      var url = Uri.http("49.50.163.210:8080", '/api/v1/auth/login');
       final response = await http.post(
-        url,
+        Uri.parse('$_baseUrl/auth/login'),
         body: json.encode({
           'email': email,
           'password': password,
@@ -93,9 +95,8 @@ class AuthService extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
-      var url = Uri.http("49.50.163.210:8080", '/api/v1/auth/sign-up');
       final response = await http.post(
-        url,
+        Uri.parse('$_baseUrl/auth/sign-up'),
         body: json.encode({
           'email': email,
           'password': password,
