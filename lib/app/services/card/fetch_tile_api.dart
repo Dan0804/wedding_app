@@ -24,7 +24,6 @@ class FetchTileApi extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
-      notifyListeners();
       return jsonList.map((json) => Tile.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load tiles from the API. '
