@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:wedding_app/app/services/card/edit_tile_api.dart';
 import 'package:wedding_app/calender_set/calender.dart';
@@ -30,8 +31,6 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
   late String tileStatus;
 
   int newBudget = 0;
-
-  final EditTileApi _editTileApi = EditTileApi();
 
   void setDate(DateTime selectedDay) {
     setState(() {
@@ -182,31 +181,33 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   ),
                   SizedBox(
                     width: 150,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          bool isSuccess = await _editTileApi.editTile(
-                            tileId,
-                            _titleController.text,
-                            newBudget,
-                            deadline,
-                            tileStatus,
-                          );
-                          if (isSuccess) {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Edit Created Successfully!')),
+                    child: Consumer<EditTileApi>(builder: (context, editTileApi, child) {
+                      return ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            bool isSuccess = await editTileApi.editTile(
+                              tileId,
+                              _titleController.text,
+                              newBudget,
+                              deadline,
+                              tileStatus,
                             );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Failed to Edit Card')),
-                            );
+                            if (isSuccess) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Edit Created Successfully!')),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Failed to Edit Card')),
+                              );
+                            }
                           }
-                        }
-                      },
-                      child: Text('카드 수정!'),
-                    ),
+                        },
+                        child: Text('카드 수정!'),
+                      );
+                    }),
                   ),
                 ],
               ),
