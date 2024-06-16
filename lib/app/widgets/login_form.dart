@@ -18,6 +18,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    _emailController.text = 'test@example.com';
+    _passwordController.text = 'password1234!!';
     return Form(
       key: _formKey,
       child: Column(
