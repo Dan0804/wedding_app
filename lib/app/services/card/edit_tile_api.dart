@@ -11,7 +11,7 @@ class EditTileApi {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
-    final response = await http.post(
+    final response = await http.patch(
       Uri.parse('$_baseUrl/cardboard/$tileId'),
       body: json.encode({
         "cardTitle": tileTitle,
