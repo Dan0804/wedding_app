@@ -56,9 +56,7 @@ class TileWidget extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      print('change status');
-                    },
+                    onPressed: () async {},
                   ),
                   IconButton(
                     icon: Icon(Icons.delete),

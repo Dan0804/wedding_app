@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
+import 'package:wedding_app/app/screens/main_screen.dart';
 import 'package:wedding_app/app/services/card/edit_tile_api.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 
@@ -194,7 +195,11 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                               tileStatus,
                             );
                             if (isSuccess) {
-                              Navigator.pop(context);
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+                                (Route<dynamic> route) => false,
+                              );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Edit Created Successfully!')),
                               );
