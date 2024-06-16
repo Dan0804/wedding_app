@@ -20,6 +20,9 @@ class EditTilePopUp extends StatefulWidget {
 
 class _EditTilePopUpState extends State<EditTilePopUp> {
   final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _budgetController = TextEditingController();
+
   late int tileId;
   late String tileTitle;
   late String budget;
@@ -40,8 +43,8 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
   void initState() {
     super.initState();
     tileId = widget.tile.tileId;
-    tileTitle = widget.tile.tileTitle;
-    budget = NumberFormat('₩###,###,###,###').format(widget.tile.budget);
+    _titleController.text = widget.tile.tileTitle;
+    _budgetController.text = NumberFormat('₩###,###,###,###').format(widget.tile.budget);
     deadline = widget.tile.deadline;
     tileStatus = widget.tile.tileStatus;
   }
@@ -64,7 +67,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Card Title'),
-                    initialValue: tileTitle,
+                    controller: _titleController,
                     onSaved: (value) => tileTitle = value!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -75,7 +78,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Budget'),
-                    initialValue: budget,
+                    controller: _budgetController,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -182,9 +185,10 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
                           bool isSuccess = await _editTileApi.editTile(
                             tileId,
-                            tileTitle,
+                            _titleController.text,
                             newBudget,
                             deadline,
                             tileStatus,
