@@ -6,7 +6,7 @@ import 'package:wedding_app/service_set/tile_service.dart';
 import 'app/screens/login_screen.dart';
 import 'app/screens/main_screen.dart';
 
-void main() {
+void main() async {
   runApp(
     MultiProvider(
       providers: [
