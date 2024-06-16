@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config.dart';
 
-class EditTileApi {
+class EditTileApi extends ChangeNotifier {
   final String _baseUrl = Config.apiUrl;
 
   Future<bool> editTile(int tileId, String tileTitle, int budget, DateTime deadline, String tileStatus) async {
@@ -28,6 +29,7 @@ class EditTileApi {
     );
 
     if (response.statusCode == 200) {
+      notifyListeners();
       return true;
     } else {
       final decodedBody = utf8.decode(response.bodyBytes);

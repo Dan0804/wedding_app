@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config.dart';
 
-class DeleteTileApi {
+class DeleteTileApi extends ChangeNotifier {
   final String _baseUrl = Config.apiUrl;
 
   Future<bool> deleteTile(int tileId) async {
@@ -25,6 +26,7 @@ class DeleteTileApi {
     );
 
     if (response.statusCode == 200) {
+      notifyListeners();
       return true;
     } else {
       final decodedBody = utf8.decode(response.bodyBytes);
