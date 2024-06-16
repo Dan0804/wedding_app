@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
-
 import '../models/tile.dart';
 import '../widgets/tile_list.dart';
 
@@ -15,19 +15,6 @@ class _TileListScreenState extends State<TileListScreen> {
   List<Tile> backlogTiles = [];
   List<Tile> progressTiles = [];
   List<Tile> doneTiles = [];
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    backlogTiles = await getTileApi('BACKLOG');
-    progressTiles = await getTileApi('PROGRESS');
-    doneTiles = await getTileApi('DONE');
-    setState(() {});
-  }
 
   void handleStatusChanged(Tile tile, String newStatus) {
     setState(() {
@@ -74,39 +61,56 @@ class _TileListScreenState extends State<TileListScreen> {
               SizedBox(
                 height: 16,
               ),
-              Flexible(
-                fit: FlexFit.tight,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TileList(
-                        status: 'BACKLOG',
-                        tiles: backlogTiles,
+              Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+                return Flexible(
+                  fit: FlexFit.tight,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: FutureBuilder<List<Tile>>(
+                            future: fetchTileApi.getTileApi('BACKLOG'),
+                            builder: (context, snapshot) {
+                              final tileDatas = snapshot.data ?? [];
+                              return TileList(
+                                status: 'BACKLOG',
+                                tiles: tileDatas,
+                              );
+                            }),
                       ),
-                    ),
-                    VerticalDivider(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                    Expanded(
-                      child: TileList(
-                        status: 'PROGRESS',
-                        tiles: progressTiles,
+                      VerticalDivider(
+                        width: 1,
+                        color: Colors.grey,
                       ),
-                    ),
-                    VerticalDivider(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                    Expanded(
-                      child: TileList(
-                        status: 'DONE',
-                        tiles: doneTiles,
+                      Expanded(
+                        child: FutureBuilder<List<Tile>>(
+                            future: fetchTileApi.getTileApi('PROGRESS'),
+                            builder: (context, snapshot) {
+                              final tileDatas = snapshot.data ?? [];
+                              return TileList(
+                                status: 'PROGRESS',
+                                tiles: tileDatas,
+                              );
+                            }),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                      VerticalDivider(
+                        width: 1,
+                        color: Colors.grey,
+                      ),
+                      Expanded(
+                        child: FutureBuilder<List<Tile>>(
+                            future: fetchTileApi.getTileApi('DONE'),
+                            builder: (context, snapshot) {
+                              final tileDatas = snapshot.data ?? [];
+                              return TileList(
+                                status: 'DONE',
+                                tiles: tileDatas,
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
         ),

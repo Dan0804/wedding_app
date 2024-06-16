@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:wedding_app/app/services/card/delete_tile_api.dart';
 
@@ -16,8 +17,6 @@ class DeleteTilePopUp extends StatefulWidget {
 }
 
 class _DeleteTilePopUpState extends State<DeleteTilePopUp> {
-  final DeleteTileApi _deleteTileApi = DeleteTileApi();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -59,24 +58,26 @@ class _DeleteTilePopUpState extends State<DeleteTilePopUp> {
             ],
           )),
       actions: <Widget>[
-        TextButton(
-          child: const Text('삭제하기!'),
-          onPressed: () async {
-            bool isSuccess = await _deleteTileApi.deleteTile(
-              widget.tile.tileId,
-            );
-            if (isSuccess) {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Delete Created Successfully!')),
+        Consumer<DeleteTileApi>(builder: (context, deleteTileApi, child) {
+          return TextButton(
+            child: const Text('삭제하기!'),
+            onPressed: () async {
+              bool isSuccess = await deleteTileApi.deleteTile(
+                widget.tile.tileId,
               );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Failed to Delete Card')),
-              );
-            }
-          },
-        ),
+              if (isSuccess) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Delete Created Successfully!')),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to Delete Card')),
+                );
+              }
+            },
+          );
+        }),
       ],
     );
   }
