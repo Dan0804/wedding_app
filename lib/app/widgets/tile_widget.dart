@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:intl/intl.dart';
+import 'package:wedding_app/app/widgets/delete_tile_pop_up.dart';
 import 'package:wedding_app/app/widgets/edit_tile_pop_up.dart';
 
 class TileWidget extends StatelessWidget {
@@ -63,7 +64,13 @@ class TileWidget extends StatelessWidget {
                     icon: Icon(Icons.delete),
                     color: Colors.redAccent,
                     onPressed: () {
-                      print('delete');
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DeleteTilePopUp(
+                              tile: tile,
+                            );
+                          });
                     },
                   ),
                 ],
