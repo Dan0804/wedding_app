@@ -75,7 +75,6 @@ class _DeleteTilePopUpState extends State<DeleteTilePopUp> {
                 SnackBar(content: Text('Failed to Delete Card')),
               );
             }
-            Navigator.of(context).pop();
           },
         ),
       ],
