@@ -11,7 +11,7 @@ class DeleteTileApi {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
-    final response = await http.post(
+    final response = await http.delete(
       Uri.parse('$_baseUrl/cardboard/$tileId'),
       body: json.encode({
         "cardId": tileId,
