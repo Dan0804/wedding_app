@@ -9,6 +9,10 @@ import '../../../config.dart';
 const String _baseUrl = Config.apiUrl;
 
 class FetchTileApi extends ChangeNotifier {
+  List<Tile> backlogTiles = [];
+  List<Tile> progressTiles = [];
+  List<Tile> doneTiles = [];
+
   Future<List<Tile>> getTileApi(String cardStatus) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -30,5 +34,12 @@ class FetchTileApi extends ChangeNotifier {
           'Status code: ${response.statusCode} '
           'Response body: ${json.decode(response.body)}');
     }
+  }
+
+  Future<void> fetchAllTiles() async {
+    backlogTiles = await getTileApi('BACKLOG');
+    progressTiles = await getTileApi('PROGRESS');
+    doneTiles = await getTileApi('DONE');
+    notifyListeners();
   }
 }
