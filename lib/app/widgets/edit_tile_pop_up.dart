@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:wedding_app/app/models/tile.dart';
+import 'package:wedding_app/app/services/card/edit_tile_api.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 
 class EditTilePopUp extends StatefulWidget {
-  const EditTilePopUp({super.key});
+  final Tile tile;
+
+  const EditTilePopUp({
+    super.key,
+    required this.tile,
+  });
 
   @override
   State<EditTilePopUp> createState() => _EditTilePopUpState();
@@ -13,14 +20,30 @@ class EditTilePopUp extends StatefulWidget {
 
 class _EditTilePopUpState extends State<EditTilePopUp> {
   final _formKey = GlobalKey<FormState>();
-  String cardTitle = '';
-  int budget = 0;
-  DateTime deadline = DateTime(1994, 8, 4);
+  late int tileId;
+  late String tileTitle;
+  late String budget;
+  late DateTime deadline;
+  late String tileStatus;
+
+  int newBudget = 0;
+
+  final EditTileApi _editTileApi = EditTileApi();
 
   void setDate(DateTime selectedDay) {
     setState(() {
       deadline = selectedDay;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tileId = widget.tile.tileId;
+    tileTitle = widget.tile.tileTitle;
+    budget = NumberFormat('₩###,###,###,###').format(widget.tile.budget);
+    deadline = widget.tile.deadline;
+    tileStatus = widget.tile.tileStatus;
   }
 
   @override
@@ -41,7 +64,8 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Card Title'),
-                    onSaved: (value) => cardTitle = value!,
+                    initialValue: tileTitle,
+                    onSaved: (value) => tileTitle = value!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a card title';
@@ -51,6 +75,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Budget'),
+                    initialValue: budget,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -66,9 +91,9 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                           budgetStr = budgetStr + removeRest[i];
                         }
 
-                        budget = int.parse(budgetStr);
+                        newBudget = int.parse(budgetStr);
                       } else {
-                        budget = 0;
+                        newBudget = 0;
                       }
                     },
                   ),
@@ -156,7 +181,25 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                     width: 150,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          bool isSuccess = await _editTileApi.editTile(
+                            tileId,
+                            tileTitle,
+                            newBudget,
+                            deadline,
+                            tileStatus,
+                          );
+                          if (isSuccess) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Edit Created Successfully!')),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Failed to Edit Card')),
+                            );
+                          }
+                        }
                       },
                       child: Text('카드 수정!'),
                     ),

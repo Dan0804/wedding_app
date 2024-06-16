@@ -25,7 +25,9 @@ class TileWidget extends StatelessWidget {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return EditTilePopUp();
+              return EditTilePopUp(
+                tile: tile,
+              );
             });
       },
       child: Card(
