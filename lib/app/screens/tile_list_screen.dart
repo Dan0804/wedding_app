@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
-import '../models/tile.dart';
 import '../widgets/tile_list.dart';
 
 class TileListScreen extends StatefulWidget {
@@ -12,40 +11,9 @@ class TileListScreen extends StatefulWidget {
 }
 
 class _TileListScreenState extends State<TileListScreen> {
-  List<Tile> backlogTiles = [];
-  List<Tile> progressTiles = [];
-  List<Tile> doneTiles = [];
-
-  void handleStatusChanged(Tile tile, String newStatus) {
-    setState(() {
-      switch (tile.tileStatus) {
-        case 'BACKLOG':
-          backlogTiles.remove(tile);
-          break;
-        case 'PROGRESS':
-          progressTiles.remove(tile);
-          break;
-        case 'DONE':
-          doneTiles.remove(tile);
-          break;
-      }
-
-      switch (newStatus) {
-        case 'BACKLOG':
-          backlogTiles.add(tile);
-          break;
-        case 'PROGRESS':
-          progressTiles.add(tile);
-          break;
-        case 'DONE':
-          doneTiles.add(tile);
-          break;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    context.read<FetchTileApi>().fetchAllTiles();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -67,45 +35,30 @@ class _TileListScreenState extends State<TileListScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: FutureBuilder<List<Tile>>(
-                            future: fetchTileApi.getTileApi('BACKLOG'),
-                            builder: (context, snapshot) {
-                              final tileDatas = snapshot.data ?? [];
-                              return TileList(
-                                status: 'BACKLOG',
-                                tiles: tileDatas,
-                              );
-                            }),
+                        child: TileList(
+                          status: 'BACKLOG',
+                          tiles: fetchTileApi.backlogTiles,
+                        ),
                       ),
                       VerticalDivider(
                         width: 1,
                         color: Colors.grey,
                       ),
                       Expanded(
-                        child: FutureBuilder<List<Tile>>(
-                            future: fetchTileApi.getTileApi('PROGRESS'),
-                            builder: (context, snapshot) {
-                              final tileDatas = snapshot.data ?? [];
-                              return TileList(
-                                status: 'PROGRESS',
-                                tiles: tileDatas,
-                              );
-                            }),
+                        child: TileList(
+                          status: 'PROGRESS',
+                          tiles: fetchTileApi.progressTiles,
+                        ),
                       ),
                       VerticalDivider(
                         width: 1,
                         color: Colors.grey,
                       ),
                       Expanded(
-                        child: FutureBuilder<List<Tile>>(
-                            future: fetchTileApi.getTileApi('DONE'),
-                            builder: (context, snapshot) {
-                              final tileDatas = snapshot.data ?? [];
-                              return TileList(
-                                status: 'DONE',
-                                tiles: tileDatas,
-                              );
-                            }),
+                        child: TileList(
+                          status: 'DONE',
+                          tiles: fetchTileApi.doneTiles,
+                        ),
                       ),
                     ],
                   ),
