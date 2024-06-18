@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/services/auth_service.dart';
-import 'package:wedding_app/app/services/card/delete_tile_api.dart';
-import 'package:wedding_app/app/services/card/edit_tile_api.dart';
 import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
 import 'app/screens/login_screen.dart';
@@ -21,12 +19,6 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => FetchTileApi(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => DeleteTileApi(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => EditTileApi(),
         ),
       ],
       child: const WeddingApp(),
