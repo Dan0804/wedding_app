@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wedding_app/app/screens/main_screen.dart';
 import 'package:wedding_app/app/widgets/error_popup.dart';
 
 import '../../config.dart';
@@ -10,14 +11,12 @@ class AuthService extends ChangeNotifier {
   final String _baseUrl = Config.apiUrl;
   bool isLoggedIn = false;
 
-  Future<bool> checkLoginStatus() async {
+  Future<void> checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
     isLoggedIn = token != null;
     notifyListeners();
-
-    return isLoggedIn;
   }
 
   Future<void> login(
@@ -51,6 +50,14 @@ class AuthService extends ChangeNotifier {
         await prefs.setString('token', token);
 
         isLoggedIn = true;
+
+        if (!context.mounted) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+          (Route<dynamic> route) => false,
+        );
+
         notifyListeners();
       } else {
         final decodedBody = utf8.decode(response.bodyBytes);
@@ -82,6 +89,14 @@ class AuthService extends ChangeNotifier {
             );
           });
     }
+  }
+
+  Future<void> logOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+
+    isLoggedIn = false;
+    notifyListeners();
   }
 
   Future<void> register(
@@ -138,12 +153,13 @@ class AuthService extends ChangeNotifier {
     } catch (error) {
       if (!context.mounted) return;
       showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return ErrorPopUp(
-              error: error.toString(),
-            );
-          });
+        context: context,
+        builder: (BuildContext context) {
+          return ErrorPopUp(
+            error: error.toString(),
+          );
+        },
+      );
     }
   }
 }
