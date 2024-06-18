@@ -61,18 +61,20 @@ class _LoginFormState extends State<LoginForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Provider.of<AuthService>(context, listen: false).login(
-                      _emailController.text,
-                      _passwordController.text,
-                      context,
-                    );
-                  }
-                },
-              ),
+              Consumer<AuthService>(builder: (context, authService, child) {
+                return ElevatedButton(
+                  child: Text('Login'),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      authService.login(
+                        _emailController.text,
+                        _passwordController.text,
+                        context,
+                      );
+                    }
+                  },
+                );
+              }),
               SizedBox(
                 width: 10,
               ),
