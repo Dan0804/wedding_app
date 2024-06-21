@@ -4,8 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/screens/main_screen.dart';
-import 'package:wedding_app/app/services/card/edit_tile_api.dart';
+import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
 import 'package:wedding_app/calender_set/calender.dart';
 
 class EditTilePopUp extends StatefulWidget {
@@ -182,12 +181,12 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   ),
                   SizedBox(
                     width: 150,
-                    child: Consumer<EditTileApi>(builder: (context, editTileApi, child) {
+                    child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
                       return ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            bool isSuccess = await editTileApi.editTile(
+                            bool isSuccess = await fetchTileApi.editTile(
                               tileId,
                               _titleController.text,
                               newBudget,
@@ -195,11 +194,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                               tileStatus,
                             );
                             if (isSuccess) {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-                                (Route<dynamic> route) => false,
-                              );
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Edit Created Successfully!')),
                               );

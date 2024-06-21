@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/screens/main_screen.dart';
-import 'package:wedding_app/app/services/card/delete_tile_api.dart';
+import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
 
 class DeleteTilePopUp extends StatefulWidget {
   final Tile tile;
@@ -59,19 +58,15 @@ class _DeleteTilePopUpState extends State<DeleteTilePopUp> {
             ],
           )),
       actions: <Widget>[
-        Consumer<DeleteTileApi>(builder: (context, deleteTileApi, child) {
+        Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
           return TextButton(
             child: const Text('삭제하기!'),
             onPressed: () async {
-              bool isSuccess = await deleteTileApi.deleteTile(
+              bool isSuccess = await fetchTileApi.deleteTile(
                 widget.tile.tileId,
               );
               if (isSuccess) {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-                  (Route<dynamic> route) => false,
-                );
+                Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Delete Created Successfully!')),
                 );

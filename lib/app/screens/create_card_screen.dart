@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:wedding_app/app/screens/main_screen.dart';
+import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
 import 'package:wedding_app/calender_set/calender.dart';
-import '../services/card/create_card_api.dart';
 
 class CreateCardScreen extends StatefulWidget {
   const CreateCardScreen({super.key});
@@ -18,8 +19,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
   String cardTitle = '';
   int budget = 0;
   DateTime deadline = DateTime(1994, 8, 4);
-  // Instance of your ApiService
-  final CreateCardApi _apiService = CreateCardApi();
 
   void setDate(DateTime selectedDay) {
     setState(() {
@@ -156,29 +155,31 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 ),
                 SizedBox(
                   width: 150,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        bool isSuccess = await _apiService.createCard(cardTitle, budget, deadline);
-                        if (isSuccess) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Card Created Successfully!')),
-                          );
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-                            (Route<dynamic> route) => false,
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to Create Card')),
-                          );
+                  child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+                    return ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          bool isSuccess = await fetchTileApi.createCard(cardTitle, budget, deadline);
+                          if (isSuccess) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Card Created Successfully!')),
+                            );
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Failed to Create Card')),
+                            );
+                          }
                         }
-                      }
-                    },
-                    child: Text('Create Card'),
-                  ),
+                      },
+                      child: Text('Create Card'),
+                    );
+                  }),
                 ),
               ],
             ),

@@ -31,4 +31,110 @@ class FetchTileApi extends ChangeNotifier {
           'Response body: ${json.decode(response.body)}');
     }
   }
+
+  Future<List> fetchAllTiles() async {
+    var values = Future.wait([
+      getTileApi('BACKLOG'),
+      getTileApi('PROGRESS'),
+      getTileApi('DONE'),
+    ]);
+
+    return values;
+  }
+
+  Future<bool> createCard(String cardTitle, int budget, DateTime deadline) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    final response = await http.post(
+      Uri.parse('$_baseUrl/cards'),
+      body: json.encode({
+        "cardTitle": cardTitle,
+        "budget": budget,
+        "deadline": deadline.toIso8601String(),
+      }),
+      headers: {
+        'Authorization': 'Bearer $token',
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        'Accept': '*/*',
+      },
+    );
+
+    if (response.statusCode == 201) {
+      // Assuming 201 is the status code for a successful creation
+      notifyListeners();
+      return true;
+    } else {
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(decodedBody);
+
+      throw Exception('Failed to create card: '
+          'Status code: ${response.statusCode} '
+          'Response body: $jsonBody');
+    }
+  }
+
+  Future<bool> editTile(int tileId, String tileTitle, int budget, DateTime deadline, String tileStatus) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    final response = await http.patch(
+      Uri.parse('$_baseUrl/cardboard/$tileId'),
+      body: json.encode({
+        "cardTitle": tileTitle,
+        "budget": budget,
+        "deadline": deadline.toIso8601String(),
+        "cardStatus": tileStatus,
+      }),
+      headers: {
+        'Authorization': 'Bearer $token',
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        'Accept': '*/*',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      notifyListeners();
+      return true;
+    } else {
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(decodedBody);
+
+      throw Exception('Failed to create card: '
+          'Status code: ${response.statusCode} '
+          'Response body: $jsonBody');
+    }
+  }
+
+  Future<bool> deleteTile(int tileId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    final response = await http.delete(
+      Uri.parse('$_baseUrl/cardboard/$tileId'),
+      body: json.encode({
+        "cardId": tileId,
+      }),
+      headers: {
+        'Authorization': 'Bearer $token',
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        'Accept': '*/*',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      notifyListeners();
+      return true;
+    } else {
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(decodedBody);
+
+      throw Exception('Failed to create card: '
+          'Status code: ${response.statusCode} '
+          'Response body: $jsonBody');
+    }
+  }
 }
