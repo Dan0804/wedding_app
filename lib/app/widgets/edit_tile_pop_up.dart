@@ -45,7 +45,6 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
     _titleController.text = widget.tile.tileTitle;
     _budgetController.text = NumberFormat('₩###,###,###,###').format(widget.tile.budget);
     deadline = widget.tile.deadline;
-    tileStatus = widget.tile.tileStatus;
   }
 
   @override
@@ -186,12 +185,23 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+                            Map<String, dynamic> editData = {};
+
+                            if (_titleController.text != widget.tile.tileTitle) {
+                              editData["cardTitle"] = _titleController.text;
+                            }
+
+                            if (_budgetController.text != NumberFormat('₩###,###,###,###').format(widget.tile.budget)) {
+                              editData["budget"] = newBudget;
+                            }
+
+                            if (deadline != widget.tile.deadline) {
+                              editData["deadline"] = deadline.toIso8601String();
+                            }
+
                             bool isSuccess = await fetchTileApi.editTile(
                               tileId,
-                              _titleController.text,
-                              newBudget,
-                              deadline,
-                              tileStatus,
+                              editData,
                             );
                             if (isSuccess) {
                               Navigator.pop(context);
