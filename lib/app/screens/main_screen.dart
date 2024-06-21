@@ -31,8 +31,7 @@ class MainScreen extends StatelessWidget {
           Consumer<AuthService>(builder: (context, authService, child) {
             return IconButton(
               onPressed: () {
-                // authService.logOut();
-
+                authService.logOut();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (BuildContext context) => LoginScreen()),
