@@ -39,27 +39,29 @@ class _TileWidgetState extends State<TileWidget> {
               );
             });
       },
-      child: Card(
-        elevation: 10,
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
-            return Flex(
-              direction: Axis.horizontal,
-              children: [
-                widget.tile.tileStatus != "BACKLOG"
-                    ? MouseRegion(
-                        onEnter: (PointerEvent details) {
-                          setState(() {
-                            _backVisible = true;
-                          });
-                        },
-                        onExit: (PointerEvent details) {
-                          setState(() {
-                            _backVisible = false;
-                          });
-                        },
-                        child: AnimatedOpacity(
+      child: MouseRegion(
+        onEnter: (PointerEvent details) {
+          setState(() {
+            _backVisible = true;
+            _forwardVisible = true;
+          });
+        },
+        onExit: (PointerEvent details) {
+          setState(() {
+            _backVisible = false;
+            _forwardVisible = false;
+          });
+        },
+        child: Card(
+          elevation: 10,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+              return Flex(
+                direction: Axis.horizontal,
+                children: [
+                  widget.tile.tileStatus != "BACKLOG"
+                      ? AnimatedOpacity(
                           opacity: _backVisible ? 1 : 0,
                           duration: Duration(milliseconds: 300),
                           child: IconButton(
@@ -74,40 +76,28 @@ class _TileWidgetState extends State<TileWidget> {
                             },
                             icon: Icon(Icons.arrow_back),
                           ),
+                        )
+                      : Container(),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.tile.tileTitle,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      )
-                    : Container(),
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.tile.tileTitle,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text('Budget: ${addRest(widget.tile.budget)}'),
-                      widget.tile.deadline != DateTime(1994, 8, 4) ? Text('Deadline: ${DateFormat('yyyy-MM-dd').format(widget.tile.deadline)}') : Text('Deadline: 미정'),
-                    ],
+                        SizedBox(height: 8.0),
+                        Text('Budget: ${addRest(widget.tile.budget)}'),
+                        widget.tile.deadline != DateTime(1994, 8, 4) ? Text('Deadline: ${DateFormat('yyyy-MM-dd').format(widget.tile.deadline)}') : Text('Deadline: 미정'),
+                      ],
+                    ),
                   ),
-                ),
-                widget.tile.tileStatus != "DONE"
-                    ? MouseRegion(
-                        onEnter: (PointerEvent details) {
-                          setState(() {
-                            _forwardVisible = true;
-                          });
-                        },
-                        onExit: (PointerEvent details) {
-                          setState(() {
-                            _forwardVisible = false;
-                          });
-                        },
-                        child: AnimatedOpacity(
+                  widget.tile.tileStatus != "DONE"
+                      ? AnimatedOpacity(
                           opacity: _forwardVisible ? 1 : 0,
                           duration: Duration(milliseconds: 300),
                           child: IconButton(
@@ -122,25 +112,25 @@ class _TileWidgetState extends State<TileWidget> {
                             },
                             icon: Icon(Icons.arrow_forward),
                           ),
-                        ),
-                      )
-                    : Container()
-                // IconButton(
-                //   icon: Icon(Icons.delete),
-                //   color: Colors.redAccent,
-                //   onPressed: () {
-                //     showDialog(
-                //         context: context,
-                //         builder: (BuildContext context) {
-                //           return DeleteTilePopUp(
-                //             tile: tile,
-                //           );
-                //         });
-                //   },
-                // ),
-              ],
-            );
-          }),
+                        )
+                      : Container()
+                  // IconButton(
+                  //   icon: Icon(Icons.delete),
+                  //   color: Colors.redAccent,
+                  //   onPressed: () {
+                  //     showDialog(
+                  //         context: context,
+                  //         builder: (BuildContext context) {
+                  //           return DeleteTilePopUp(
+                  //             tile: tile,
+                  //           );
+                  //         });
+                  //   },
+                  // ),
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
