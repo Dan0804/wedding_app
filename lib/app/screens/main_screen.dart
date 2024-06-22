@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wedding_app/app/screens/create_card_screen.dart';
 import 'package:wedding_app/app/screens/login_screen.dart';
 import 'package:wedding_app/app/screens/tile_list_screen.dart';
 import 'package:wedding_app/app/services/auth_service.dart';
@@ -50,15 +49,6 @@ class MainScreen extends StatelessWidget {
             Icons.settings,
             color: Colors.black,
             size: 32,
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateCardScreen()),
-              );
-            },
-            icon: const Icon(Icons.add),
           ),
         ],
       ),
