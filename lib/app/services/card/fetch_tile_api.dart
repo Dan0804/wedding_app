@@ -75,18 +75,13 @@ class FetchTileApi extends ChangeNotifier {
     }
   }
 
-  Future<bool> editTile(int tileId, String tileTitle, int budget, DateTime deadline, String tileStatus) async {
+  Future<bool> editTile(int tileId, Map<String, dynamic> editData) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
 
     final response = await http.patch(
       Uri.parse('$_baseUrl/cardboard/$tileId'),
-      body: json.encode({
-        "cardTitle": tileTitle,
-        "budget": budget,
-        "deadline": deadline.toIso8601String(),
-        "cardStatus": tileStatus,
-      }),
+      body: json.encode(editData),
       headers: {
         'Authorization': 'Bearer $token',
         "Access-Control-Allow-Origin": "*",
