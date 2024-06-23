@@ -97,7 +97,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                       SizedBox(
                                         width: 400,
                                         child: Calender(
-                                          textTile: true,
                                           setDate: setDate,
                                         ),
                                       ),
