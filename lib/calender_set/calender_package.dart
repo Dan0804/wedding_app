@@ -31,9 +31,6 @@ class _CalenderPackageState extends State<CalenderPackage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 16,
-                ),
                 Center(
                   child: Stack(
                     children: [
