@@ -9,6 +9,8 @@ import '../../../config.dart';
 const String _baseUrl = Config.apiUrl;
 
 class FetchTileApi extends ChangeNotifier {
+  late Map<DateTime, List<Tile>> calendarTiles;
+
   Future<List<Tile>> getTileApi(String cardStatus) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
@@ -40,6 +42,17 @@ class FetchTileApi extends ChangeNotifier {
     ]);
 
     return values;
+  }
+
+  void calendarDatas(List<Tile> datas) {
+    for (Tile data in datas) {
+      var date = DateTime.utc(data.deadline.year, data.deadline.month, data.deadline.day);
+      if (calendarTiles.containsKey(date)) {
+        calendarTiles[date]!.add(data);
+      } else {
+        calendarTiles[date] = [data];
+      }
+    }
   }
 
   Future<bool> createCard(String cardTitle, int budget, DateTime deadline) async {
