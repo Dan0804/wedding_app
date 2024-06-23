@@ -122,7 +122,6 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                                         SizedBox(
                                           width: 400,
                                           child: Calender(
-                                            textTile: true,
                                             setDate: setDate,
                                           ),
                                         ),

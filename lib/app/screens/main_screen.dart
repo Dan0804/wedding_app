@@ -75,6 +75,13 @@ class MainScreen extends StatelessWidget {
                   future: fetchTileApi.fetchAllTiles(),
                   builder: (context, snapshot) {
                     var datas = snapshot.data ?? [];
+                    if (datas.isNotEmpty) {
+                      fetchTileApi.calendarTiles = {};
+                      fetchTileApi.calendarDatas(datas[0]);
+                      fetchTileApi.calendarDatas(datas[1]);
+                      fetchTileApi.calendarDatas(datas[2]);
+                    }
+
                     return datas.isEmpty
                         ? Center(
                             child: CircularProgressIndicator(),
