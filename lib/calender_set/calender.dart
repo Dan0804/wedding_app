@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:wedding_app/app/models/tile.dart';
+import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
 import 'package:wedding_app/service_set/tile_service.dart';
 part 'calender_detail_tile.dart';
 
 class Calender extends StatefulWidget {
   const Calender({
     super.key,
-    required this.textTile,
     required this.setDate,
   });
 
-  final bool textTile;
   final Function? setDate;
 
   @override
@@ -51,17 +51,20 @@ class _CalenderState extends State<Calender> {
     );
   }
 
+  List<Tile> getEventsForDay(events, DateTime day) {
+    return events[day] ?? [];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<TileService>(
-      builder: (context, tileService, child) {
+    return Consumer<FetchTileApi>(
+      builder: (context, fetchService, child) {
         return Stack(
           children: [
             TableCalendar(
               calendarBuilders: CalendarBuilders(
                 todayBuilder: (context, day, focusedDay) {
                   final text = day.day.toString();
-
                   return Padding(
                     padding: const EdgeInsets.only(top: 6, left: 6, right: 6, bottom: 4),
                     child: AnimatedContainer(
@@ -130,20 +133,26 @@ class _CalenderState extends State<Calender> {
 
                   return Padding(
                     padding: const EdgeInsets.only(top: 2, left: 2, right: 2),
-                    child: AnimatedContainer(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: Colors.purple[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      duration: Duration(microseconds: 2000),
-                      child: Align(
-                        alignment: Alignment(-0.6, -0.75),
-                        child: Text(
-                          text,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
+                    child: GestureDetector(
+                      onDoubleTap: () {
+                        widget.setDate!(_selectedDay);
+                        Navigator.pop(context);
+                      },
+                      child: AnimatedContainer(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.purple[200],
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        duration: Duration(microseconds: 2000),
+                        child: Align(
+                          alignment: Alignment(-0.6, -0.75),
+                          child: Text(
+                            text,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -165,7 +174,6 @@ class _CalenderState extends State<Calender> {
                 setState(() {
                   _selectedDay = day;
                   _today = focusedDay;
-                  tileService.selectedInit = day;
                 });
               },
               selectedDayPredicate: (day) {
@@ -176,32 +184,10 @@ class _CalenderState extends State<Calender> {
                 formatButtonVisible: false,
                 titleCentered: true,
               ),
-              eventLoader: tileService.getEventsForDay,
+              eventLoader: (day) {
+                return getEventsForDay(fetchService.calendarTiles, day);
+              },
             ),
-            widget.textTile
-                ? Positioned(
-                    right: 8,
-                    bottom: 16,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        widget.setDate!(_selectedDay);
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          elevation: 10,
-                          fixedSize: Size(80, 32),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          )),
-                      child: Text(
-                        "Register",
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
           ],
         );
       },
