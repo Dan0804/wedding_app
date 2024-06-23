@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wedding_app/app/screens/login_screen.dart';
 import 'package:wedding_app/app/screens/tile_list_screen.dart';
 import 'package:wedding_app/app/services/auth_service.dart';
+import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
 
 class MainScreen extends StatelessWidget {
@@ -69,20 +70,33 @@ class MainScreen extends StatelessWidget {
           Flexible(
             flex: 1,
             fit: FlexFit.tight,
-            child: Row(
-              children: [
-                Flexible(
-                  flex: 5,
-                  fit: FlexFit.tight,
-                  child: TileListScreen(),
-                ),
-                Flexible(
-                  flex: 2,
-                  fit: FlexFit.tight,
-                  child: CalenderPackage(),
-                ),
-              ],
-            ),
+            child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+              return FutureBuilder(
+                  future: fetchTileApi.fetchAllTiles(),
+                  builder: (context, snapshot) {
+                    var datas = snapshot.data ?? [];
+                    return datas.isEmpty
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Row(
+                            children: [
+                              Flexible(
+                                flex: 5,
+                                fit: FlexFit.tight,
+                                child: TileListScreen(
+                                  tileDatas: datas,
+                                ),
+                              ),
+                              Flexible(
+                                flex: 2,
+                                fit: FlexFit.tight,
+                                child: CalenderPackage(),
+                              ),
+                            ],
+                          );
+                  });
+            }),
           ),
         ],
       ),
