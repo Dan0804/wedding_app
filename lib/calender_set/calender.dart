@@ -37,14 +37,16 @@ class _CalenderState extends State<Calender> {
 
   Widget _eventsMarker(List events, DateTime day, DateTime selectedDay) {
     return Align(
-      alignment: day == selectedDay ? Alignment(0.6, 0.6) : Alignment(0.5, 0.5),
+      alignment: Alignment(0.6, 0.6),
       child: CircleAvatar(
-        radius: 8,
+        radius: 10,
         backgroundColor: Colors.red[300],
-        child: Center(
-          child: Text(
-            "${events.length}",
-            style: TextStyle(color: Colors.white),
+        child: Text(
+          "${events.length}",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
