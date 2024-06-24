@@ -13,26 +13,39 @@ class CalenderDetail extends StatefulWidget {
 }
 
 class _CalenderDetailState extends State<CalenderDetail> {
+  String addRest(budget) {
+    int intBudget = budget.toInt();
+    String budgetRest = NumberFormat('₩ ###,###,###,###').format(intBudget);
+    return budgetRest;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<TileService>(
-      builder: (context, tileService, child) {
-        tileService.addDetail(widget.textTile);
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: widget.textTile ? tileService.selectedEventsInTile.length : tileService.selectedEventsInCalender.length,
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 5,
-              color: Colors.black12,
-              child: SizedBox(
-                height: 64,
-                child: Center(
-                  child: Text(widget.textTile ? tileService.selectedEventsInTile[index].title : tileService.selectedEventsInCalender[index].title),
+    var tilesForDay = context.watch<FetchTileApi>().tilesForDay;
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: tilesForDay.length,
+      itemBuilder: (context, index) {
+        var tile = tilesForDay[index];
+        return Card(
+          elevation: 10,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  tile.tileTitle,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            );
-          },
+                SizedBox(height: 8.0),
+                Text('Budget: ${addRest(tile.budget)}'),
+              ],
+            ),
+          ),
         );
       },
     );

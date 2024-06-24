@@ -10,6 +10,12 @@ const String _baseUrl = Config.apiUrl;
 
 class FetchTileApi extends ChangeNotifier {
   late Map<DateTime, List<Tile>> calendarTiles;
+  late List<Tile> tilesForDay = [];
+
+  void getTilesForDay(day) {
+    tilesForDay = calendarTiles[day] ?? [];
+    notifyListeners();
+  }
 
   Future<List<Tile>> getTileApi(String cardStatus) async {
     final prefs = await SharedPreferences.getInstance();
