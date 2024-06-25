@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wedding_app/app/screens/login_screen.dart';
 import 'package:wedding_app/app/screens/tile_list_screen.dart';
 import 'package:wedding_app/app/services/auth_service.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
 import 'package:wedding_app/calender_set/calender_package.dart';
 
 class MainScreen extends StatelessWidget {

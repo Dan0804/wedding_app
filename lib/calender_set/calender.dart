@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
 part 'calender_detail_tile.dart';
 
 class Calender extends StatefulWidget {

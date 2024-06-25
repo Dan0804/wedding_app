@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
 
 class DeleteTilePopUp extends StatefulWidget {
   final Tile tile;

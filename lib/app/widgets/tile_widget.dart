@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:intl/intl.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
 import 'package:wedding_app/app/widgets/edit_tile_pop_up.dart';
 
 class TileWidget extends StatefulWidget {
