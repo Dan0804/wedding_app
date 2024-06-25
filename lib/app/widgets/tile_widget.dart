@@ -113,20 +113,7 @@ class _TileWidgetState extends State<TileWidget> {
                             icon: Icon(Icons.arrow_forward),
                           ),
                         )
-                      : Container()
-                  // IconButton(
-                  //   icon: Icon(Icons.delete),
-                  //   color: Colors.redAccent,
-                  //   onPressed: () {
-                  //     showDialog(
-                  //         context: context,
-                  //         builder: (BuildContext context) {
-                  //           return DeleteTilePopUp(
-                  //             tile: tile,
-                  //           );
-                  //         });
-                  //   },
-                  // ),
+                      : Container(),
                 ],
               );
             }),

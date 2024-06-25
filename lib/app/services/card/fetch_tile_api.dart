@@ -81,7 +81,6 @@ class FetchTileApi extends ChangeNotifier {
     );
 
     if (response.statusCode == 201) {
-      // Assuming 201 is the status code for a successful creation
       notifyListeners();
       return true;
     } else {
