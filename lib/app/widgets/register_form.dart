@@ -80,19 +80,12 @@ class _RegisterFormState extends State<RegisterForm> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return PartnerEnterPopUp();
-                  });
-
-              // Provider.of<AuthService>(context, listen: false).register(
-              //   _emailController.text,
-              //   _passwordController.text,
-              //   _nameController.text,
-              //   _partnerEmailController.text,
-              //   context,
-              // );
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return PartnerEnterPopUp();
+                },
+              );
             }
           },
         ),
