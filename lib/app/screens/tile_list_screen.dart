@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedding_app/app/screens/create_card_screen.dart';
-import '../widgets/tile_list.dart';
+import '../widgets/forTile/tile_list.dart';
 
 class TileListScreen extends StatefulWidget {
   const TileListScreen({

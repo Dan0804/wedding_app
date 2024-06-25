@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:intl/intl.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
-import 'package:wedding_app/app/widgets/edit_tile_pop_up.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
+import 'package:wedding_app/app/widgets/forTile/edit_tile_pop_up.dart';
 
 class TileWidget extends StatefulWidget {
   final Tile tile;
@@ -56,7 +56,7 @@ class _TileWidgetState extends State<TileWidget> {
           elevation: 10,
           child: Padding(
             padding: EdgeInsets.all(16.0),
-            child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+            child: Consumer<TileService>(builder: (context, tileService, child) {
               return Flex(
                 direction: Axis.horizontal,
                 children: [
@@ -68,10 +68,10 @@ class _TileWidgetState extends State<TileWidget> {
                             onPressed: () {
                               if (widget.tile.tileStatus == "PROGRESS") {
                                 Map<String, dynamic> editData = {"cardStatus": "BACKLOG"};
-                                fetchTileApi.editTile(widget.tile.tileId, editData);
+                                tileService.editTile(widget.tile.tileId, editData);
                               } else if (widget.tile.tileStatus == "DONE") {
                                 Map<String, dynamic> editData = {"cardStatus": "PROGRESS"};
-                                fetchTileApi.editTile(widget.tile.tileId, editData);
+                                tileService.editTile(widget.tile.tileId, editData);
                               }
                             },
                             icon: Icon(Icons.arrow_back),
@@ -104,10 +104,10 @@ class _TileWidgetState extends State<TileWidget> {
                             onPressed: () {
                               if (widget.tile.tileStatus == "BACKLOG") {
                                 Map<String, dynamic> editData = {"cardStatus": "PROGRESS"};
-                                fetchTileApi.editTile(widget.tile.tileId, editData);
+                                tileService.editTile(widget.tile.tileId, editData);
                               } else if (widget.tile.tileStatus == "PROGRESS") {
                                 Map<String, dynamic> editData = {"cardStatus": "DONE"};
-                                fetchTileApi.editTile(widget.tile.tileId, editData);
+                                tileService.editTile(widget.tile.tileId, editData);
                               }
                             },
                             icon: Icon(Icons.arrow_forward),

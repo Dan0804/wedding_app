@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wedding_app/app/screens/main_screen.dart';
 import 'package:wedding_app/app/widgets/error_popup.dart';
 
-import '../../config.dart';
+import '../../util/config.dart';
 
 class AuthService extends ChangeNotifier {
   final String _baseUrl = Config.apiUrl;

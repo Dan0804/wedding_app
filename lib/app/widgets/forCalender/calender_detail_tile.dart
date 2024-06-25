@@ -21,7 +21,7 @@ class _CalenderDetailState extends State<CalenderDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var tilesForDay = context.watch<FetchTileApi>().tilesForDay;
+    var tilesForDay = context.watch<TileService>().tilesForDay;
     return ListView.builder(
       shrinkWrap: true,
       itemCount: tilesForDay.length,

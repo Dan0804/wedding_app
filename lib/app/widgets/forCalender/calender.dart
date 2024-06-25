@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
 part 'calender_detail_tile.dart';
 
 class Calender extends StatefulWidget {
@@ -58,8 +58,8 @@ class _CalenderState extends State<Calender> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FetchTileApi>(
-      builder: (context, fetchService, child) {
+    return Consumer<TileService>(
+      builder: (context, tileService, child) {
         return Stack(
           children: [
             TableCalendar(
@@ -175,7 +175,7 @@ class _CalenderState extends State<Calender> {
                 setState(() {
                   _selectedDay = day;
                   _today = focusedDay;
-                  fetchService.getTilesForDay(_selectedDay);
+                  tileService.getTilesForDay(_selectedDay);
                 });
               },
               selectedDayPredicate: (day) {
@@ -187,7 +187,7 @@ class _CalenderState extends State<Calender> {
                 titleCentered: true,
               ),
               eventLoader: (day) {
-                return getEventsForDay(fetchService.calendarTiles, day);
+                return getEventsForDay(tileService.calendarTiles, day);
               },
             ),
           ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
 
 class DeleteTilePopUp extends StatefulWidget {
   final Tile tile;
@@ -58,11 +58,11 @@ class _DeleteTilePopUpState extends State<DeleteTilePopUp> {
             ],
           )),
       actions: <Widget>[
-        Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+        Consumer<TileService>(builder: (context, tileService, child) {
           return TextButton(
             child: const Text('삭제하기!'),
             onPressed: () async {
-              bool isSuccess = await fetchTileApi.deleteTile(
+              bool isSuccess = await tileService.deleteTile(
                 widget.tile.tileId,
               );
               if (isSuccess) {

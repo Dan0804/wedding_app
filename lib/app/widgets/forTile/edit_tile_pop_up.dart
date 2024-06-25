@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
-import 'package:wedding_app/app/services/card/fetch_tile_api.dart';
-import 'package:wedding_app/calender_set/calender.dart';
+import 'package:wedding_app/app/services/tile_service.dart';
+import 'package:wedding_app/app/widgets/forCalender/calender.dart';
 
 class EditTilePopUp extends StatefulWidget {
   final Tile tile;
@@ -179,7 +179,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   ),
                   SizedBox(
                     width: 150,
-                    child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+                    child: Consumer<TileService>(builder: (context, tileService, child) {
                       return ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -198,7 +198,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                               editData["deadline"] = deadline.toIso8601String();
                             }
 
-                            bool isSuccess = await fetchTileApi.editTile(
+                            bool isSuccess = await tileService.editTile(
                               tileId,
                               editData,
                             );
