@@ -14,7 +14,7 @@ void main() async {
           create: (_) => AuthService(),
         ),
         ChangeNotifierProvider(
-          create: (_) => FetchTileApi(),
+          create: (_) => TileService(),
         ),
       ],
       child: const WeddingApp(),

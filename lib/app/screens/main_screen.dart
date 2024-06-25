@@ -70,16 +70,16 @@ class MainScreen extends StatelessWidget {
           Flexible(
             flex: 1,
             fit: FlexFit.tight,
-            child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+            child: Consumer<TileService>(builder: (context, tileService, child) {
               return FutureBuilder(
-                  future: fetchTileApi.fetchAllTiles(),
+                  future: tileService.fetchAllTiles(),
                   builder: (context, snapshot) {
                     var datas = snapshot.data ?? [];
                     if (datas.isNotEmpty) {
-                      fetchTileApi.calendarTiles = {};
-                      fetchTileApi.calendarDatas(datas[0]);
-                      fetchTileApi.calendarDatas(datas[1]);
-                      fetchTileApi.calendarDatas(datas[2]);
+                      tileService.calendarTiles = {};
+                      tileService.calendarDatas(datas[0]);
+                      tileService.calendarDatas(datas[1]);
+                      tileService.calendarDatas(datas[2]);
                     }
 
                     return datas.isEmpty

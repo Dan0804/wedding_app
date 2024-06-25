@@ -58,11 +58,11 @@ class _DeleteTilePopUpState extends State<DeleteTilePopUp> {
             ],
           )),
       actions: <Widget>[
-        Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+        Consumer<TileService>(builder: (context, tileService, child) {
           return TextButton(
             child: const Text('삭제하기!'),
             onPressed: () async {
-              bool isSuccess = await fetchTileApi.deleteTile(
+              bool isSuccess = await tileService.deleteTile(
                 widget.tile.tileId,
               );
               if (isSuccess) {

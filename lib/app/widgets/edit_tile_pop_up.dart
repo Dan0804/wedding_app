@@ -179,7 +179,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   ),
                   SizedBox(
                     width: 150,
-                    child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+                    child: Consumer<TileService>(builder: (context, tileService, child) {
                       return ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -198,7 +198,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                               editData["deadline"] = deadline.toIso8601String();
                             }
 
-                            bool isSuccess = await fetchTileApi.editTile(
+                            bool isSuccess = await tileService.editTile(
                               tileId,
                               editData,
                             );

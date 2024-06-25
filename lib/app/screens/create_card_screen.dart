@@ -154,12 +154,12 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                 ),
                 SizedBox(
                   width: 150,
-                  child: Consumer<FetchTileApi>(builder: (context, fetchTileApi, child) {
+                  child: Consumer<TileService>(builder: (context, tileService, child) {
                     return ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          bool isSuccess = await fetchTileApi.createCard(cardTitle, budget, deadline);
+                          bool isSuccess = await tileService.createCard(cardTitle, budget, deadline);
                           if (isSuccess) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Card Created Successfully!')),

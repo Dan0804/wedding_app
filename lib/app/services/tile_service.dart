@@ -7,7 +7,7 @@ import '../../config.dart';
 
 const String _baseUrl = Config.apiUrl;
 
-class FetchTileApi extends ChangeNotifier {
+class TileService extends ChangeNotifier {
   late Map<DateTime, List<Tile>> calendarTiles;
   late List<Tile> tilesForDay = [];
 
