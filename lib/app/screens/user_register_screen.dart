@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/app/widgets/register_form.dart';
+import 'package:wedding_app/app/widgets/forAuth/register_form.dart';
 
 class UserRegisterScreen extends StatelessWidget {
   const UserRegisterScreen({super.key});

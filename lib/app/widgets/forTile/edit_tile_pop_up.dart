@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:wedding_app/app/services/tile_service.dart';
-import 'package:wedding_app/calender_set/calender.dart';
+import 'package:wedding_app/app/widgets/forCalender/calender.dart';
 
 class EditTilePopUp extends StatefulWidget {
   final Tile tile;

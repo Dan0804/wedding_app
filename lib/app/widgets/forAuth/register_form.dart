@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/app/widgets/partner_enter_pop_up.dart';
+import 'package:wedding_app/app/widgets/forAuth/partner_enter_pop_up.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});

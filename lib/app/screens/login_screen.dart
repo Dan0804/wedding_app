@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/app/widgets/login_form.dart';
+import 'package:wedding_app/app/widgets/forAuth/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
