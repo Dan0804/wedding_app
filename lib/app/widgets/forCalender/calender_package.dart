@@ -18,60 +18,47 @@ class _CalenderPackageState extends State<CalenderPackage> {
         height: double.infinity,
         child: Card(
           elevation: 10,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Calender",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Calender",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Center(
-                  child: Stack(
-                    children: [
-                      Calender(
-                        setDate: null,
-                      ),
-                      Positioned(
-                        top: 12,
-                        right: 64,
-                        child: IconButton(
-                          onPressed: () {
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.refresh),
-                        ),
-                      ),
-                    ],
+              ),
+              Stack(
+                children: [
+                  Calender(
+                    setDate: null,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black45),
                   ),
                 ),
-                SizedBox(
-                  height: 24,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black45),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              ),
+              Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: CalenderDetail(
                     textTile: false,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
