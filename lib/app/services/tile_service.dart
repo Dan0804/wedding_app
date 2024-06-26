@@ -16,6 +16,10 @@ class TileService extends ChangeNotifier {
     notifyListeners();
   }
 
+  void firstGetTilesForDay(day) {
+    tilesForDay = calendarTiles[day] ?? [];
+  }
+
   Future<List<Tile>> getTileApi(String cardStatus) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
