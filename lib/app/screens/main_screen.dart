@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
         centerTitle: true,
         title: const Center(
           child: Text(
-            "Our Wedding Diary",
+            "Wedding Jira",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -29,7 +29,7 @@ class MainScreen extends StatelessWidget {
         ),
         actions: [
           Consumer<AuthService>(builder: (context, authService, child) {
-            return IconButton(
+            return ElevatedButton(
               onPressed: () {
                 authService.logOut();
                 Navigator.pushAndRemoveUntil(
@@ -38,18 +38,21 @@ class MainScreen extends StatelessWidget {
                   (Route<dynamic> route) => false,
                 );
               },
-              icon: const Icon(Icons.login),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.logout,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text("Log Out!"),
+                ],
+              ),
             );
           }),
-          const Icon(
-            Icons.person,
-            color: Colors.black,
-            size: 32,
-          ),
-          const Icon(
-            Icons.settings,
-            color: Colors.black,
-            size: 32,
+          SizedBox(
+            width: 32,
           ),
         ],
       ),
@@ -63,7 +66,7 @@ class MainScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: 0.3,
-                minHeight: 24,
+                minHeight: 16,
               ),
             ),
           ),
