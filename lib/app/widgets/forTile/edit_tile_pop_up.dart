@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:wedding_app/app/models/tile.dart';
 import 'package:wedding_app/app/services/tile_service.dart';
 import 'package:wedding_app/app/widgets/forCalender/calender.dart';
+import 'package:wedding_app/app/widgets/forTile/delete_tile_pop_up.dart';
 
 class EditTilePopUp extends StatefulWidget {
   final Tile tile;
@@ -55,7 +56,7 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
       ),
       content: SizedBox(
         height: 300,
-        width: 400,
+        width: 500,
         child: Form(
           key: _formKey,
           child: Center(
@@ -177,46 +178,74 @@ class _EditTilePopUpState extends State<EditTilePopUp> {
                   SizedBox(
                     height: 30,
                   ),
-                  SizedBox(
-                    width: 150,
-                    child: Consumer<TileService>(builder: (context, tileService, child) {
-                      return ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            Map<String, dynamic> editData = {};
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 140,
+                        child: Consumer<TileService>(builder: (context, tileService, child) {
+                          return ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                Map<String, dynamic> editData = {};
 
-                            if (_titleController.text != widget.tile.tileTitle) {
-                              editData["cardTitle"] = _titleController.text;
-                            }
+                                if (_titleController.text != widget.tile.tileTitle) {
+                                  editData["cardTitle"] = _titleController.text;
+                                }
 
-                            if (_budgetController.text != NumberFormat('₩###,###,###,###').format(widget.tile.budget)) {
-                              editData["budget"] = newBudget;
-                            }
+                                if (_budgetController.text != NumberFormat('₩###,###,###,###').format(widget.tile.budget)) {
+                                  editData["budget"] = newBudget;
+                                }
 
-                            if (deadline != widget.tile.deadline) {
-                              editData["deadline"] = deadline.toIso8601String();
-                            }
+                                if (deadline != widget.tile.deadline) {
+                                  editData["deadline"] = deadline.toIso8601String();
+                                }
 
-                            bool isSuccess = await tileService.editTile(
-                              tileId,
-                              editData,
-                            );
-                            if (isSuccess) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Edit Created Successfully!')),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Failed to Edit Card')),
-                              );
-                            }
-                          }
-                        },
-                        child: Text('카드 수정!'),
-                      );
-                    }),
+                                bool isSuccess = await tileService.editTile(
+                                  tileId,
+                                  editData,
+                                );
+                                if (isSuccess) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Edit Created Successfully!')),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Failed to Edit Card')),
+                                  );
+                                }
+                              }
+                            },
+                            child: Text('카드 수정!'),
+                          );
+                        }),
+                      ),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      SizedBox(
+                        width: 140,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return DeleteTilePopUp(
+                                    tile: widget.tile,
+                                  );
+                                });
+                          },
+                          child: Text(
+                            '카드 삭제',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
