@@ -60,7 +60,7 @@ class _CalenderState extends State<Calender> {
   Widget build(BuildContext context) {
     return Consumer<TileService>(
       builder: (context, tileService, child) {
-        tileService.firstGetTilesForDay(_today);
+        tileService.firstGetTilesForDay(_selectedDay);
         return TableCalendar(
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, day, focusedDay) {
