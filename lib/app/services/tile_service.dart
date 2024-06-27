@@ -10,14 +10,17 @@ const String _baseUrl = Config.apiUrl;
 class TileService extends ChangeNotifier {
   late Map<DateTime, List<Tile>> calendarTiles;
   late List<Tile> tilesForDay = [];
+  late DateTime selectedDay;
 
   void getTilesForDay(day) {
     tilesForDay = calendarTiles[day] ?? [];
+    selectedDay = day;
     notifyListeners();
   }
 
   void firstGetTilesForDay(day) {
     tilesForDay = calendarTiles[day] ?? [];
+    selectedDay = day;
   }
 
   Future<List<Tile>> getTileApi(String cardStatus) async {
